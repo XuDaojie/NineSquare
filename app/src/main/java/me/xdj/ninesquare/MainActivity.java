@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,17 +31,20 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-//    @BindView(R.id.zoom_iv)
+    //    @BindView(R.id.zoom_iv)
 //    ImageView mZoomIv;
-    @BindView(R.id.container)
-    FrameLayout mContainer;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.background_view)
     View mBackgroundView;
+    @BindView(R.id.pager_number_tv)
+    TextView mPagerNumberTv;
+    @BindView(R.id.container)
+    FrameLayout mContainer;
 
     private Animator mCurrentAnimator;
     private View mCurrentView; // 当前选中View
+    private int mStateBarColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,22 @@ public class MainActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
         mRecyclerView.setAdapter(new NineSquareAdapter());
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("onPageSelected", position + "");
+                mPagerNumberTv.setText(position + 1 + "/" + 9);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private void playZoomInAnimator(final View targetView) {
@@ -63,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         Point globalOffset = new Point();
         // TODO: 16/6/30 测试
         mBackgroundView.setVisibility(View.VISIBLE);
+        mPagerNumberTv.setVisibility(View.VISIBLE);
 //        mViewPager.setVisibility(View.VISIBLE);
 //        mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), startBounds, finalBounds, globalOffset));
 
@@ -172,14 +195,22 @@ public class MainActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mViewPager.setVisibility(View.INVISIBLE);
+                mPagerNumberTv.setVisibility(View.INVISIBLE);
                 mBackgroundView.setVisibility(View.INVISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(mStateBarColor);
+                }
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
                 super.onAnimationCancel(animation);
                 mViewPager.setVisibility(View.INVISIBLE);
+                mPagerNumberTv.setVisibility(View.INVISIBLE);
                 mBackgroundView.setVisibility(View.INVISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(mStateBarColor);
+                }
             }
         });
         set
@@ -223,8 +254,18 @@ public class MainActivity extends AppCompatActivity {
             ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                    // TODO: 16/7/1 修改状态栏颜色
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (mStateBarColor == 0) {
+                            mStateBarColor = getWindow().getStatusBarColor();
+                        }
+                        getWindow().setStatusBarColor(Color.BLACK);
+                    }
+
                     mBackgroundView.setVisibility(View.VISIBLE);
+                    mPagerNumberTv.setText(position + 1 + "/" + 9);
                     mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), null, null, null));
+                    mViewPager.setCurrentItem(position);
                     mViewPager.setVisibility(View.VISIBLE);
                     playZoomInAnimator(v);
                 }
