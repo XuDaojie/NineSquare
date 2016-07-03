@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
@@ -63,13 +64,20 @@ public class ImageFragment extends Fragment {
         mGlobalOffset = bundle.getParcelable("globalOffset");
         mPosition = bundle.getInt("position");
 
+        // 通过另一个请求加载缩略图
+        DrawableRequestBuilder<String> thumbRequest = Glide
+                .with(getActivity())
+                .load(MainActivity.mImgUrl[mPosition]);
+
         Glide
                 .with(getActivity())
                 .load(MainActivity.mBigImgUrl[mPosition])
+//                .load("http://www.bz55.com/uploads/allimg/150616/139-150616101938.jpg")
                 .dontAnimate()
                 .dontTransform()
                 .placeholder(R.drawable.img_place)
                 .error(R.drawable.img_error)
+                .thumbnail(thumbRequest)
                 .into(mZoomIv);
 
         // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
