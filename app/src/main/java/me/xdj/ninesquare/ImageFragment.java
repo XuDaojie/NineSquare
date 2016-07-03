@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,15 +32,17 @@ public class ImageFragment extends Fragment {
     private Rect mStartRect;
     private Rect mFinalRect;
     private Point mGlobalOffset;
+    private int mPosition;
 
     private Animator mCurrentAnimator;
     private OnDeltaClickListener mOnDeltaClickListener;
 
-    public static ImageFragment newInstance(Rect startBounds, Rect finalBounds, Point globalOffset) {
+    public static ImageFragment newInstance(int position, Rect startBounds, Rect finalBounds, Point globalOffset) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("startBounds", startBounds);
         bundle.putParcelable("finalBounds", finalBounds);
         bundle.putParcelable("globalOffset", globalOffset);
+        bundle.putInt("position", position);
 
         ImageFragment fragment = new ImageFragment();
         fragment.setArguments(bundle);
@@ -56,6 +61,16 @@ public class ImageFragment extends Fragment {
         mStartRect = bundle.getParcelable("startBounds");
         mFinalRect = bundle.getParcelable("finalBounds");
         mGlobalOffset = bundle.getParcelable("globalOffset");
+        mPosition = bundle.getInt("position");
+
+        Glide
+                .with(getActivity())
+                .load(MainActivity.mBigImgUrl[mPosition])
+                .dontAnimate()
+                .dontTransform()
+                .placeholder(R.drawable.img_place)
+                .error(R.drawable.img_error)
+                .into(mZoomIv);
 
         // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
         Matrix m = mZoomIv.getImageMatrix();
@@ -75,21 +90,26 @@ public class ImageFragment extends Fragment {
                 mZoomIv.getGlobalVisibleRect(rect);
 
                 // 获得图片实际宽高 (资源文件中的图片获得的宽高未必是原图宽高,与屏幕分辨率有关)
-                int drawableOriginalWidth = mZoomIv.getDrawable().getIntrinsicWidth();
-                int drawableOriginalHeight = mZoomIv.getDrawable().getIntrinsicHeight();
+                Drawable drawable = mZoomIv.getDrawable();
+                if (drawable != null) {
+                    int drawableOriginalWidth = mZoomIv.getDrawable().getIntrinsicWidth();
+                    int drawableOriginalHeight = mZoomIv.getDrawable().getIntrinsicHeight();
 
-                // 获得实际显示的宽高
-                int drawableWidth = (int) (drawableOriginalWidth * values[0]);
-                int drawableHeight = (int) (drawableOriginalHeight * values[4]);
+                    // 获得实际显示的宽高
+                    int drawableWidth = (int) (drawableOriginalWidth * values[0]);
+                    int drawableHeight = (int) (drawableOriginalHeight * values[4]);
 
-                // TODO: 16/7/1 计算当前点是否在delta区域
-                int deltaHeight = (1920 - drawableHeight) / 2;
+                    // TODO: 16/7/1 计算当前点是否在delta区域
+                    int deltaHeight = (1920 - drawableHeight) / 2;
 
-                if (event.getY() < deltaHeight
-                        || event.getY() > deltaHeight + drawableHeight) {
-                    if (mOnDeltaClickListener != null) {
-                        mOnDeltaClickListener.onClick(v);
+                    if (event.getY() < deltaHeight
+                            || event.getY() > deltaHeight + drawableHeight) {
+                        if (mOnDeltaClickListener != null) {
+                            mOnDeltaClickListener.onClick(v);
+                        }
                     }
+                } else if (mOnDeltaClickListener != null) {
+                    mOnDeltaClickListener.onClick(v);
                 }
 
                 return false;

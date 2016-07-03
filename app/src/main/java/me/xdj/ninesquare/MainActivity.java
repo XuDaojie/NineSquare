@@ -25,14 +25,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    //    @BindView(R.id.zoom_iv)
-//    ImageView mZoomIv;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
     @BindView(R.id.background_view)
@@ -45,6 +45,29 @@ public class MainActivity extends AppCompatActivity {
     private Animator mCurrentAnimator;
     private View mCurrentView; // 当前选中View
     private int mStateBarColor;
+
+    public static final String[] mImgUrl = new String[]{
+            "http://ww2.sinaimg.cn/thumb180/8f1fe6aajw1f5gtp60m71j216o1kwq7p.jpg",
+            "http://ww4.sinaimg.cn/orj480/005SiNxygw1f5gsgcibauj30ku334qdx.jpg",
+            "http://ww2.sinaimg.cn/thumb180/bfc243a3gw1f5gk1acbo7j20xc0xcmxw.jpg",
+            "http://ww1.sinaimg.cn/thumb180/bfc243a3gw1f5gk1aqxsrj20xc0xcmxz.jpg",
+            "http://ww1.sinaimg.cn/thumb180/795bf814gw1f5eddc8y95j20rs0ie108.jpg",
+            "http://ww1.sinaimg.cn/thumb180/53899d01jw1f5ev8meqlxj20ku0kwdhk.jpg",
+            "http://ww1.sinaimg.cn/thumb180/a316360dgw1f5ftuqyeikj20ku0fmgmw.jpg",
+            "http://ww2.sinaimg.cn/thumb180/692c7ed6gw1f5fq6ocpfhj20qo0zkn7k.jpg",
+            "http://ww2.sinaimg.cn/thumb180/67dd74e0gw1f5fq5c66xhj20j60wbjvc.jpg"
+    };
+    public static final String[] mBigImgUrl = new String[]{
+            "http://ww2.sinaimg.cn/mw690/8f1fe6aajw1f5gtp60m71j216o1kwq7p.jpg",
+            "http://ww4.sinaimg.cn/mw690/005SiNxygw1f5gsgcibauj30ku334qdx.jpg",
+            "http://ww2.sinaimg.cn/thumb180/bfc243a3gw1f5gk1acbo7j20xc0xcmxw.jpg",
+            "http://ww1.sinaimg.cn/mw690/bfc243a3gw1f5gk1aqxsrj20xc0xcmxz.jpg",
+            "http://ww1.sinaimg.cn/mw690/795bf814gw1f5eddc8y95j20rs0ie108.jpg",
+            "http://ww1.sinaimg.cn/mw690/53899d01jw1f5ev8meqlxj20ku0kwdhk.jpg",
+            "http://ww2.sinaimg.cn/mw690/a316360dgw1f5ftuqyeikj20ku0fmgmw.jpg",
+            "http://ww2.sinaimg.cn/mw690/692c7ed6gw1f5fq6ocpfhj20qo0zkn7k.jpg",
+            "http://ww2.sinaimg.cn/mw690/67dd74e0gw1f5fq5c66xhj20j60wbjvc.jpg"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
         // TODO: 16/6/30 测试
         mBackgroundView.setVisibility(View.VISIBLE);
         mPagerNumberTv.setVisibility(View.VISIBLE);
-//        mViewPager.setVisibility(View.VISIBLE);
-//        mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), startBounds, finalBounds, globalOffset));
 
         targetView.getGlobalVisibleRect(startBounds);
         mContainer.getGlobalVisibleRect(finalBounds, globalOffset);
@@ -138,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 .with(ObjectAnimator.ofFloat(mViewPager, View.SCALE_X, startScale, 1f))
                 .with(ObjectAnimator.ofFloat(mViewPager, View.SCALE_Y, startScale, 1f));
 
-        set.setDuration(300);
+        set.setDuration(300 * 1);
         set.start();
         mCurrentAnimator = set;
         mCurrentView = targetView;
@@ -251,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
             GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 3);
             holder.mPhotoRv.setLayoutManager(glm);
             holder.mPhotoRv.setAdapter(new ImageAdapter());
+
             ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -267,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                     mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), null, null, null));
                     mViewPager.setCurrentItem(position);
                     mViewPager.setVisibility(View.VISIBLE);
+
                     playZoomInAnimator(v);
                 }
             });
@@ -288,6 +311,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ImageViewHolder holder, int position) {
+            holder.mImageView.setImageDrawable(null);
+            Glide
+                    .with(MainActivity.this)
+                    .load(mImgUrl[position])
+                    .placeholder(R.drawable.img_place)
+                    .error(R.drawable.img_error)
+                    .dontTransform()
+                    .dontAnimate()
+                    .centerCrop()
+                    .into(holder.mImageView);
         }
 
         @Override
@@ -337,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            ImageFragment fragment = ImageFragment.newInstance(startBounds, finalBounds, globalOffset);
+            ImageFragment fragment = ImageFragment.newInstance(position, startBounds, finalBounds, globalOffset);
             fragment.setOnDeltaClickListener(new ImageFragment.OnDeltaClickListener() {
                 @Override
                 public void onClick(View v) {
