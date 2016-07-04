@@ -85,10 +85,10 @@ public class MyPhotoView  extends ImageView implements IPhotoView {
         return mAttacher.getDisplayMatrix();
     }
 
-    @Override
-    public void getDisplayMatrix(Matrix matrix) {
-        mAttacher.getDisplayMatrix(matrix);
-    }
+//    @Override
+//    public void getDisplayMatrix(Matrix matrix) {
+//        mAttacher.getDisplayMatrix(matrix);
+//    }
 
     @Override
     public boolean setDisplayMatrix(Matrix finalRectangle) {
@@ -292,10 +292,10 @@ public class MyPhotoView  extends ImageView implements IPhotoView {
         mAttacher.setOnScaleChangeListener(onScaleChangeListener);
     }
 
-    @Override
-    public void setOnSingleFlingListener(PhotoViewAttacher.OnSingleFlingListener onSingleFlingListener) {
-        mAttacher.setOnSingleFlingListener(onSingleFlingListener);
-    }
+//    @Override
+//    public void setOnSingleFlingListener(PhotoViewAttacher.OnSingleFlingListener onSingleFlingListener) {
+//        mAttacher.setOnSingleFlingListener(onSingleFlingListener);
+//    }
 
     @Override
     protected void onDetachedFromWindow() {

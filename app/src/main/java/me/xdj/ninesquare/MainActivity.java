@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             "http://ww2.sinaimg.cn/thumb180/692c7ed6gw1f5fq6ocpfhj20qo0zkn7k.jpg",
             "http://ww2.sinaimg.cn/thumb180/67dd74e0gw1f5fq5c66xhj20j60wbjvc.jpg"
     };
+
     public static final String[] mBigImgUrl = new String[] {
             "http://ww2.sinaimg.cn/mw690/8f1fe6aajw1f5gtp60m71j216o1kwq7p.jpg",
             "http://ww4.sinaimg.cn/mw690/005SiNxygw1f5gsgcibauj30ku334qdx.jpg",
