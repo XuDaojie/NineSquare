@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout mContainer;
 
     private Animator mCurrentAnimator;
-    private View mCurrentView; // 当前选中View
+    private int mCurrentItemPosition = -1;
+    private int mCurrentImgPosition = -1;
+//    private View mCurrentView; // 当前选中View
     private int mStateBarColor;
 
     public static final String[] mImgUrl = new String[] {
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.d("onPageSelected", position + "");
+                mCurrentImgPosition = position;
                 mPagerNumberTv.setText(position + 1 + "/" + 9);
             }
 
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         set.setDuration(300 * 1);
         set.start();
         mCurrentAnimator = set;
-        mCurrentView = targetView;
+//        mCurrentView = targetView;
 
         // TODO: 16/6/30 应点击delta区域缩小 目前点击无效?
         mViewPager.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +254,12 @@ public class MainActivity extends AppCompatActivity {
         if (mViewPager.getVisibility() == View.VISIBLE) {
 //            mViewPager.setVisibility(View.INVISIBLE);
 //            mBackgroundView.setVisibility(View.INVISIBLE);
-            playZoomOutAnimator(mCurrentView);
+            if (mCurrentImgPosition != -1) {
+                View targetView = mRecyclerView
+                        .findViewHolderForAdapterPosition(mCurrentImgPosition)
+                        .itemView;
+                playZoomOutAnimator(targetView);
+            }
         } else {
             super.onBackPressed();
         }
@@ -269,14 +277,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(NineSquareViewHolder holder, int position) {
+        public void onBindViewHolder(NineSquareViewHolder holder, final int position) {
             GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 3);
             holder.mPhotoRv.setLayoutManager(glm);
             holder.mPhotoRv.setAdapter(new ImageAdapter());
 
             ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
-                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                public void onItemClicked(RecyclerView recyclerView, int imgPosition, View v) {
                     // TODO: 16/7/1 修改状态栏颜色
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         if (mStateBarColor == 0) {
@@ -285,10 +293,13 @@ public class MainActivity extends AppCompatActivity {
                         getWindow().setStatusBarColor(Color.BLACK);
                     }
 
+                    mCurrentItemPosition = position;
+                    mCurrentImgPosition = imgPosition;
+
                     mBackgroundView.setVisibility(View.VISIBLE);
-                    mPagerNumberTv.setText(position + 1 + "/" + 9);
+                    mPagerNumberTv.setText(imgPosition + 1 + "/" + 9);
                     mViewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), null, null, null));
-                    mViewPager.setCurrentItem(position);
+                    mViewPager.setCurrentItem(imgPosition);
                     mViewPager.setVisibility(View.VISIBLE);
 
                     playZoomInAnimator(v);
@@ -370,17 +381,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public Fragment getItem(final int position) {
             ImageFragment fragment = ImageFragment.newInstance(position, startBounds, finalBounds, globalOffset);
             fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
                 public void onDeltaClick(View v) {
-                    playZoomOutAnimator(mCurrentView);
+                    View targetView = mRecyclerView
+                            .findViewHolderForAdapterPosition(position)
+                            .itemView;
+                    playZoomOutAnimator(targetView);
                 }
 
                 @Override
                 public void onDrawableClick(View v) {
-                    playZoomOutAnimator(mCurrentView);
+                    NineSquareViewHolder viewHolder = (NineSquareViewHolder) mRecyclerView.findViewHolderForAdapterPosition(mCurrentItemPosition);
+                    View targetView = viewHolder
+                            .mPhotoRv
+                            .findViewHolderForAdapterPosition(position)
+                            .itemView;
+                    playZoomOutAnimator(targetView);
                 }
             });
             return fragment;

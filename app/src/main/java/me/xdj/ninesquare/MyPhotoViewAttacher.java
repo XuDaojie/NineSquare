@@ -65,8 +65,10 @@ public class MyPhotoViewAttacher extends PhotoViewAttacher {
                             mOnDrawableClickListener.onDeltaClick(imageView);
                         }
                     } else {
-                        // 点击区域为图片显示区域
-                        mOnDrawableClickListener.onDrawableClick(imageView);
+                        if (mOnDrawableClickListener != null) {
+                            // 点击区域为图片显示区域
+                            mOnDrawableClickListener.onDrawableClick(imageView);
+                        }
                     }
                     return true;
                 } else if (mOnDrawableClickListener != null) {
