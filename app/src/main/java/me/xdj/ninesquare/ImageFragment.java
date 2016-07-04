@@ -4,16 +4,13 @@ import android.animation.Animator;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
@@ -26,8 +23,9 @@ import butterknife.ButterKnife;
  */
 
 public class ImageFragment extends Fragment {
+
     @BindView(R.id.zoom_iv)
-    ImageView mZoomIv;
+    MyPhotoView mZoomIv;
 
     private View mRoot;
 
@@ -37,7 +35,7 @@ public class ImageFragment extends Fragment {
     private int mPosition;
 
     private Animator mCurrentAnimator;
-    private OnDeltaClickListener mOnDeltaClickListener;
+    private MyPhotoViewAttacher.OnDrawableClickListener mOnDrawableClickListener;
 
     private GestureDetector mDeltaGestureDetector;
 
@@ -56,46 +54,47 @@ public class ImageFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDeltaGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent event) {
-//                return super.onSingleTapConfirmed(e);
-                // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
-                Matrix m = mZoomIv.getImageMatrix();
-                float[] values = new float[10];
-                m.getValues(values);
-
-                // ImageView当前显示空间
-                Rect rect = new Rect();
-                mZoomIv.getGlobalVisibleRect(rect);
-
-                // 获得图片实际宽高 (资源文件中的图片获得的宽高未必是原图宽高,与屏幕分辨率有关)
-                Drawable drawable = mZoomIv.getDrawable();
-                if (drawable != null) {
-                    int drawableOriginalWidth = mZoomIv.getDrawable().getIntrinsicWidth();
-                    int drawableOriginalHeight = mZoomIv.getDrawable().getIntrinsicHeight();
-
-                    // 获得实际显示的宽高
-                    int drawableWidth = (int) (drawableOriginalWidth * values[0]);
-                    int drawableHeight = (int) (drawableOriginalHeight * values[4]);
-
-                    // TODO: 16/7/1 计算当前点是否在delta区域
-                    int deltaHeight = (1920 - drawableHeight) / 2;
-
-                    if (event.getY() < deltaHeight
-                            || event.getY() > deltaHeight + drawableHeight) {
-                        if (mOnDeltaClickListener != null) {
-                            mOnDeltaClickListener.onClick(mZoomIv);
-                        }
-                    }
-                } else if (mOnDeltaClickListener != null) {
-                    mOnDeltaClickListener.onClick(mZoomIv);
-                }
-
-                return false;
-            }
-
-        });
+//        mDeltaGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+//
+//            @Override
+//            public boolean onSingleTapConfirmed(MotionEvent event) {
+////                return super.onSingleTapConfirmed(e);
+//                // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
+//                Matrix m = mZoomIv.getImageMatrix();
+//                float[] values = new float[10];
+//                m.getValues(values);
+//
+//                // ImageView当前显示空间
+//                Rect rect = new Rect();
+//                mZoomIv.getGlobalVisibleRect(rect);
+//
+//                // 获得图片实际宽高 (资源文件中的图片获得的宽高未必是原图宽高,与屏幕分辨率有关)
+//                Drawable drawable = mZoomIv.getDrawable();
+//                if (drawable != null) {
+//                    int drawableOriginalWidth = mZoomIv.getDrawable().getIntrinsicWidth();
+//                    int drawableOriginalHeight = mZoomIv.getDrawable().getIntrinsicHeight();
+//
+//                    // 获得实际显示的宽高
+//                    int drawableWidth = (int) (drawableOriginalWidth * values[0]);
+//                    int drawableHeight = (int) (drawableOriginalHeight * values[4]);
+//
+//                    // TODO: 16/7/1 计算当前点是否在delta区域
+//                    int deltaHeight = (1920 - drawableHeight) / 2;
+//
+//                    if (event.getY() < deltaHeight
+//                            || event.getY() > deltaHeight + drawableHeight) {
+//                        if (mOnDeltaClickListener != null) {
+//                            mOnDeltaClickListener.onClick(mZoomIv);
+//                        }
+//                    }
+//                } else if (mOnDeltaClickListener != null) {
+//                    mOnDeltaClickListener.onClick(mZoomIv);
+//                }
+//
+//                return false;
+//            }
+//
+//        });
     }
 
     @Nullable
@@ -128,31 +127,27 @@ public class ImageFragment extends Fragment {
                 .thumbnail(thumbRequest)
                 .into(mZoomIv);
 
+        //
+        mZoomIv.setOnDrawableClickListener(mOnDrawableClickListener);
+
         // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
         Matrix m = mZoomIv.getImageMatrix();
         float[] values = new float[10];
         m.getValues(values);
 
-        mRoot.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mDeltaGestureDetector.onTouchEvent(event);
-                return true;
-            }
-        });
+        // ImageView 已消费了`onTouch`事件,所以父布局的`onTouch事件无法执行`
+//        mRoot.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                mDeltaGestureDetector.onTouchEvent(event);
+//                return true;
+//            }
+//        });
 
         return mRoot;
     }
 
-    public void setOnDeltaClickListener(OnDeltaClickListener onDeltaClickListener) {
-        mOnDeltaClickListener = onDeltaClickListener;
+    public void setOnDrawableClickListener(MyPhotoViewAttacher.OnDrawableClickListener onDrawableClickListener) {
+        mOnDrawableClickListener = onDrawableClickListener;
     }
-
-    /**
-     * 图片上下空白区域点击事件
-     */
-    public interface OnDeltaClickListener {
-        void onClick(View v);
-    }
-
 }

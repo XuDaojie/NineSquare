@@ -371,9 +371,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             ImageFragment fragment = ImageFragment.newInstance(position, startBounds, finalBounds, globalOffset);
-            fragment.setOnDeltaClickListener(new ImageFragment.OnDeltaClickListener() {
+            fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onDeltaClick(View v) {
+                    playZoomOutAnimator(mCurrentView);
+                }
+
+                @Override
+                public void onDrawableClick(View v) {
                     playZoomOutAnimator(mCurrentView);
                 }
             });
