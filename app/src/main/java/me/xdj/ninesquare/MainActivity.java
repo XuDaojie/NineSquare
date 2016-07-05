@@ -255,8 +255,10 @@ public class MainActivity extends AppCompatActivity {
 //            mViewPager.setVisibility(View.INVISIBLE);
 //            mBackgroundView.setVisibility(View.INVISIBLE);
             if (mCurrentImgPosition != -1) {
-                View targetView = mRecyclerView
-                        .findViewHolderForAdapterPosition(mCurrentImgPosition)
+                NineSquareViewHolder viewHolder = (NineSquareViewHolder) mRecyclerView.findViewHolderForAdapterPosition(mCurrentItemPosition);
+                View targetView = viewHolder
+                        .mPhotoRv
+                        .findViewHolderForAdapterPosition(mCurrentItemPosition)
                         .itemView;
                 playZoomOutAnimator(targetView);
             }
@@ -386,7 +388,9 @@ public class MainActivity extends AppCompatActivity {
             fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
                 public void onDeltaClick(View v) {
-                    View targetView = mRecyclerView
+                    NineSquareViewHolder viewHolder = (NineSquareViewHolder) mRecyclerView.findViewHolderForAdapterPosition(mCurrentItemPosition);
+                    View targetView = viewHolder
+                            .mPhotoRv
                             .findViewHolderForAdapterPosition(position)
                             .itemView;
                     playZoomOutAnimator(targetView);
