@@ -1,11 +1,11 @@
-package me.xdj.ninesquare;
+package me.xdj.ninesquare.sample;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
  * Created by xdj on 15/12/15.
- * from:http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
+ * source:http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
  * 可使 RecyclerView 支持onClick
  */
 public class ItemClickSupport {

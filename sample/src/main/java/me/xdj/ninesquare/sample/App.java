@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xdj.ninesquare.sample;
 
 import android.app.Application;
 

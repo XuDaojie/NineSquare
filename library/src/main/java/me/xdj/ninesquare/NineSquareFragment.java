@@ -1,5 +1,6 @@
 package me.xdj.ninesquare;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -14,32 +15,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import me.xdj.ninesquare.photoview.HackyViewPager;
+import me.xdj.ninesquare.photoview.MyPhotoViewAttacher;
 
 /**
  * Created by xdj on 16/7/5.
  */
 public class NineSquareFragment extends DialogFragment {
 
+    public static final String POSITION = "position";
+
     private Activity mActivity;
     private View mRoot;
 
-    @BindView(R.id.view_pager)
     HackyViewPager mViewPager;
-    @BindView(R.id.pager_number_tv)
     TextView mPagerNumberTv;
 
     private Animator mCurrentAnimator;
-    private RecyclerView mItemRecyclerView;
-    private RecyclerView mImgRecyclerView;
 
 //    private int mCurrentItemPosition;
     private int mCurrentImgPosition;
@@ -48,7 +46,7 @@ public class NineSquareFragment extends DialogFragment {
 
     public static NineSquareFragment newIntance(int currentImgPosition) {
         Bundle bundle = new Bundle();
-        bundle.putInt("img_position", currentImgPosition);
+        bundle.putInt(POSITION, currentImgPosition);
 
         NineSquareFragment fragment = new NineSquareFragment();
         fragment.setArguments(bundle);
@@ -65,17 +63,18 @@ public class NineSquareFragment extends DialogFragment {
         Bundle bundle = getArguments();
         if (bundle == null) return;
 
-        mCurrentImgPosition = bundle.getInt("img_position");
+        mCurrentImgPosition = bundle.getInt(POSITION);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRoot = LayoutInflater.from(mActivity).inflate(R.layout.square_fragment, container, false);
-        ButterKnife.bind(this, mRoot);
+        mRoot = LayoutInflater.from(mActivity).inflate(R.layout.ns_square_fragment, container, false);
+        mViewPager = (HackyViewPager) mRoot.findViewById(R.id.view_pager);
+        mPagerNumberTv = (TextView) mRoot.findViewById(R.id.pager_number_tv);
 
-        mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager(), null, null, null));
+        mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
         mViewPager.setCurrentItem(mCurrentImgPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -249,20 +248,13 @@ public class NineSquareFragment extends DialogFragment {
 
     class PagerAdapter extends FragmentPagerAdapter {
 
-        Rect startBounds;
-        Rect finalBounds;
-        Point globalOffset;
-
-        public PagerAdapter(FragmentManager fm, Rect startBounds, Rect finalBounds, Point globalOffset) {
+        public PagerAdapter(FragmentManager fm) {
             super(fm);
-            this.startBounds = startBounds;
-            this.finalBounds = finalBounds;
-            this.globalOffset = globalOffset;
         }
 
         @Override
         public Fragment getItem(final int position) {
-            ImageFragment fragment = ImageFragment.newInstance(position, startBounds, finalBounds, globalOffset);
+            ImageFragment fragment = ImageFragment.newInstance(position);
             fragment.setAdapter(mPhotoAdapter);
             fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
@@ -296,7 +288,7 @@ public class NineSquareFragment extends DialogFragment {
         }
     }
 
-    interface ITarget {
+    public interface ITarget {
         /**
          * 获得缩小目标的View
          * @param position 当前图片position

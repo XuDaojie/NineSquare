@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xdj.ninesquare.photoview;
 
 import android.graphics.Matrix;
 import android.graphics.Rect;

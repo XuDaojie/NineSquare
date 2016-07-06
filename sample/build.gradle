@@ -5,7 +5,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "me.xdj.ninesquare"
+        applicationId "me.xdj.ninesquare.sample"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -27,13 +27,11 @@ dependencies {
     })
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
-
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
     testCompile 'junit:junit:4.12'
-
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.chrisbanes:PhotoView:v1.2.4'
-//    compile 'com.facebook.fresco:fresco:0.11.0'
+    //    compile 'com.facebook.fresco:fresco:0.11.0'
+    compile project(':library')
 }

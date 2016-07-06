@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xdj.ninesquare.photoview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,7 +20,7 @@ import uk.co.senab.photoview.PhotoViewAttacher.OnViewTapListener;
  * Created by xdj on 16/7/4.
  * 代码直接复制了`PhotoView`,只修改了init()
  */
-public class MyPhotoView  extends ImageView implements IPhotoView {
+public class MyPhotoView extends ImageView implements IPhotoView {
 
     private MyPhotoViewAttacher mAttacher;
 
