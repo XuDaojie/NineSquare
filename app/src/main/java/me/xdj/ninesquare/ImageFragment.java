@@ -11,9 +11,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.Glide;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +34,7 @@ public class ImageFragment extends Fragment {
 
     private Animator mCurrentAnimator;
     private MyPhotoViewAttacher.OnDrawableClickListener mOnDrawableClickListener;
+    private PhotoAdapter mAdapter;
 
     private GestureDetector mDeltaGestureDetector;
 
@@ -111,21 +110,25 @@ public class ImageFragment extends Fragment {
         mGlobalOffset = bundle.getParcelable("globalOffset");
         mPosition = bundle.getInt("position");
 
-        // 通过另一个请求加载缩略图
-        DrawableRequestBuilder<String> thumbRequest = Glide
-                .with(getActivity())
-                .load(MainActivity.mImgUrl[mPosition]);
+        if (mAdapter != null) {
+            mAdapter.loadPhoto(mPosition, mZoomIv);
+        }
 
-        Glide
-                .with(getActivity())
-                .load(MainActivity.mBigImgUrl[mPosition])
-//                .load("http://www.bz55.com/uploads/allimg/150616/139-150616101938.jpg")
-                .dontAnimate()
-                .dontTransform()
-                .placeholder(R.drawable.img_place)
-                .error(R.drawable.img_error)
-                .thumbnail(thumbRequest)
-                .into(mZoomIv);
+//        // 通过另一个请求加载缩略图
+//        DrawableRequestBuilder<String> thumbRequest = Glide
+//                .with(getActivity())
+//                .load(MainActivity.mImgUrl[mPosition]);
+//
+//        Glide
+//                .with(getActivity())
+//                .load(MainActivity.mBigImgUrl[mPosition])
+////                .load("http://www.bz55.com/uploads/allimg/150616/139-150616101938.jpg")
+//                .dontAnimate()
+//                .dontTransform()
+//                .placeholder(R.drawable.img_place)
+//                .error(R.drawable.img_error)
+//                .thumbnail(thumbRequest)
+//                .into(mZoomIv);
 
         //
         mZoomIv.setOnDrawableClickListener(mOnDrawableClickListener);
@@ -147,7 +150,23 @@ public class ImageFragment extends Fragment {
         return mRoot;
     }
 
+    public PhotoAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    public void setAdapter(PhotoAdapter adapter) {
+        mAdapter = adapter;
+    }
+
     public void setOnDrawableClickListener(MyPhotoViewAttacher.OnDrawableClickListener onDrawableClickListener) {
         mOnDrawableClickListener = onDrawableClickListener;
+    }
+
+    public interface PhotoAdapter {
+        /**
+         * 当前图片position
+         * @param position
+         */
+        void loadPhoto(int position, ImageView imageView);
     }
 }

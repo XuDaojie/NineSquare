@@ -8,8 +8,8 @@ import android.widget.ImageView;
 
 /**
  * Created by xdj on 16/6/28.
+ * 方形ImageView
  */
-
 public class SquareImageView extends ImageView {
     public SquareImageView(Context context) {
         super(context);
@@ -31,7 +31,5 @@ public class SquareImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
     }
 }

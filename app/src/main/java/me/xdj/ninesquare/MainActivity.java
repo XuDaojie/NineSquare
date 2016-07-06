@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
@@ -258,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
             ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
-                public void onItemClicked(final RecyclerView recyclerView, int imgPosition, View v) {
+                public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
                     // TODO: 16/7/1 修改状态栏颜色
 //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                        if (mStateBarColor == 0) {
@@ -288,7 +289,26 @@ public class MainActivity extends AppCompatActivity {
                             return recyclerView.findViewHolderForAdapterPosition(pos).itemView;
                         }
                     });
+                    mDialogFragment.setPhotoAdapter(new ImageFragment.PhotoAdapter() {
+                        @Override
+                        public void loadPhoto(int pos, ImageView imageView) {
+                            // 通过另一个请求加载缩略图
+                            DrawableRequestBuilder<String> thumbRequest = Glide
+                                    .with(MainActivity.this)
+                                    .load(MainActivity.mImgUrl[pos]);
 
+                            Glide
+                                    .with(MainActivity.this)
+                                    .load(MainActivity.mBigImgUrl[pos])
+                    //                .load("http://www.bz55.com/uploads/allimg/150616/139-150616101938.jpg")
+                                    .dontAnimate()
+                                    .dontTransform()
+                                    .placeholder(R.drawable.img_place)
+                                    .error(R.drawable.img_error)
+                                    .thumbnail(thumbRequest)
+                                    .into(imageView);
+                        }
+                    });
                     mDialogFragment.show(getSupportFragmentManager(), "xxx");
 
 //                    playZoomInAnimator(v);

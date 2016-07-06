@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 /**
  * Created by xdj on 16/7/5.
  */
-
 public class NineSquareFragment extends DialogFragment {
 
     private Activity mActivity;
@@ -45,6 +44,7 @@ public class NineSquareFragment extends DialogFragment {
 //    private int mCurrentItemPosition;
     private int mCurrentImgPosition;
     private ITarget mTarget;
+    private ImageFragment.PhotoAdapter mPhotoAdapter;
 
     public static NineSquareFragment newIntance(int currentImgPosition) {
         Bundle bundle = new Bundle();
@@ -101,6 +101,14 @@ public class NineSquareFragment extends DialogFragment {
 
     public void setTarget(ITarget target) {
         mTarget = target;
+    }
+
+    public ImageFragment.PhotoAdapter getPhotoAdapter() {
+        return mPhotoAdapter;
+    }
+
+    public void setPhotoAdapter(ImageFragment.PhotoAdapter photoAdapter) {
+        mPhotoAdapter = photoAdapter;
     }
 
     private void playZoomInAnimator(final View targetView) {
@@ -255,6 +263,7 @@ public class NineSquareFragment extends DialogFragment {
         @Override
         public Fragment getItem(final int position) {
             ImageFragment fragment = ImageFragment.newInstance(position, startBounds, finalBounds, globalOffset);
+            fragment.setAdapter(mPhotoAdapter);
             fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
                 public void onDeltaClick(View v) {
