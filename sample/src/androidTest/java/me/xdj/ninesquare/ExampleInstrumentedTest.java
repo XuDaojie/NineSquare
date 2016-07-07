@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("me.xdj.ninesquare", appContext.getPackageName());
+        assertEquals("me.xdj.ninesquare.sample", appContext.getPackageName());
     }
 }
