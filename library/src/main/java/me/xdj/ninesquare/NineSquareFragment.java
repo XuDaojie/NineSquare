@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,7 +44,6 @@ public class NineSquareFragment extends DialogFragment {
 
     private Animator mCurrentAnimator;
 
-//    private int mCurrentItemPosition;
     private int mCurrentImgPosition;
     private ITarget mTarget;
     private ImageFragment.PhotoAdapter mPhotoAdapter;
@@ -62,7 +62,6 @@ public class NineSquareFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-//        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme);
 
         Bundle bundle = getArguments();
@@ -103,7 +102,7 @@ public class NineSquareFragment extends DialogFragment {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("onPageSelected", position + "");
+                if (BuildConfig.DEBUG) Log.d("onPageSelected", position + "");
                 mCurrentImgPosition = position;
                 mPagerNumberTv.setText(position + 1 + "/" + 9);
             }
@@ -116,15 +115,6 @@ public class NineSquareFragment extends DialogFragment {
         playZoomInAnimator(view);
 
         return mRoot;
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        if (this.isVisible()) {
-
-        } else {
-            super.onDismiss(dialog);
-        }
     }
 
     public void setTarget(ITarget target) {
@@ -217,7 +207,6 @@ public class NineSquareFragment extends DialogFragment {
             mCurrentAnimator.cancel();
         }
         mRoot.setBackgroundResource(android.R.color.transparent);
-
 
         Rect startBounds = new Rect();
         Rect finalBounds = new Rect();
