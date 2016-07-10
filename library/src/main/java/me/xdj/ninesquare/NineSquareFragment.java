@@ -35,6 +35,7 @@ import me.xdj.ninesquare.photoview.MyPhotoViewAttacher;
 public class NineSquareFragment extends DialogFragment {
 
     public static final String POSITION = "position";
+    public static final String PAGER_COUNT = "pager_count";
 
     private Activity mActivity;
     private View mRoot;
@@ -45,12 +46,14 @@ public class NineSquareFragment extends DialogFragment {
     private Animator mCurrentAnimator;
 
     private int mCurrentImgPosition;
+    private int mPagerCount;
     private ITarget mTarget;
     private ImageFragment.PhotoAdapter mPhotoAdapter;
 
-    public static NineSquareFragment newIntance(int currentImgPosition) {
+    public static NineSquareFragment newInstance(int currentImgPosition, int pagerCount) {
         Bundle bundle = new Bundle();
         bundle.putInt(POSITION, currentImgPosition);
+        bundle.putInt(PAGER_COUNT, pagerCount);
 
         NineSquareFragment fragment = new NineSquareFragment();
         fragment.setArguments(bundle);
@@ -68,6 +71,7 @@ public class NineSquareFragment extends DialogFragment {
         if (bundle == null) return;
 
         mCurrentImgPosition = bundle.getInt(POSITION);
+        mPagerCount = bundle.getInt(PAGER_COUNT);
     }
 
     @NonNull
@@ -293,7 +297,7 @@ public class NineSquareFragment extends DialogFragment {
 
         @Override
         public int getCount() {
-            return 9;
+            return mPagerCount;
         }
     }
 

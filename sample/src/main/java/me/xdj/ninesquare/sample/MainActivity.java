@@ -1,9 +1,7 @@
 package me.xdj.ninesquare.sample;
 
 import android.animation.Animator;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
-                    mDialogFragment = NineSquareFragment.newIntance(mCurrentImgPosition);
-//                    mDialogFragment.setCancelable(false);
+                    mDialogFragment = NineSquareFragment.newInstance(mCurrentImgPosition, getItemCount());
                     mDialogFragment.setTarget(new NineSquareFragment.ITarget() {
                         @Override
                         public View getTargetView(int pos) {
@@ -114,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                             Glide
                                     .with(MainActivity.this)
                                     .load(MainActivity.mBigImgUrl[pos])
-                                    //                .load("http://www.bz55.com/uploads/allimg/150616/139-150616101938.jpg")
                                     .dontAnimate()
                                     .dontTransform()
                                     .placeholder(R.drawable.img_place)
@@ -123,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                                     .into(imageView);
                         }
                     });
-                    mDialogFragment.show(getSupportFragmentManager(), "xxx");
+                    mDialogFragment.show(getSupportFragmentManager(), "NineSquare");
                 }
             });
         }
