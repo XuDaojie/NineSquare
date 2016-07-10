@@ -94,16 +94,6 @@ public class NineSquareFragment extends DialogFragment {
 
         mRoot.setBackgroundResource(android.R.color.black);
 
-        mRoot.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    Log.d("xxx", "aa");
-                }
-                return false;
-            }
-        });
-
         mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
         mViewPager.setCurrentItem(mCurrentImgPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -136,8 +126,6 @@ public class NineSquareFragment extends DialogFragment {
             super.onDismiss(dialog);
         }
     }
-
-
 
     public void setTarget(ITarget target) {
         mTarget = target;
@@ -216,7 +204,6 @@ public class NineSquareFragment extends DialogFragment {
         set.start();
         mCurrentAnimator = set;
 
-        // TODO: 16/6/30 应点击delta区域缩小 目前点击无效?
         mViewPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -275,7 +262,6 @@ public class NineSquareFragment extends DialogFragment {
             @Override
             public void onAnimationCancel(Animator animation) {
                 super.onAnimationCancel(animation);
-                // TODO: 16/7/5 收起DialogFragment
                 NineSquareFragment.this.dismiss();
             }
         });
@@ -303,22 +289,12 @@ public class NineSquareFragment extends DialogFragment {
             fragment.setOnDrawableClickListener(new MyPhotoViewAttacher.OnDrawableClickListener() {
                 @Override
                 public void onDeltaClick(View v) {
-//                    MainActivity.NineSquareViewHolder viewHolder = (MainActivity.NineSquareViewHolder) mItemRecyclerView.findViewHolderForAdapterPosition(mCurrentItemPosition);
-//                    View targetView = viewHolder
-//                            .mPhotoRv
-//                            .findViewHolderForAdapterPosition(position)
-//                            .itemView;
                     View targetView = mTarget.getTargetView(position);
                     playZoomOutAnimator(targetView);
                 }
 
                 @Override
                 public void onDrawableClick(View v) {
-//                    MainActivity.NineSquareViewHolder viewHolder = (MainActivity.NineSquareViewHolder) mItemRecyclerView.findViewHolderForAdapterPosition(mCurrentItemPosition);
-//                    View targetView = viewHolder
-//                            .mPhotoRv
-//                            .findViewHolderForAdapterPosition(position)
-//                            .itemView;
                     View targetView = mTarget.getTargetView(position);
                     playZoomOutAnimator(targetView);
                 }
