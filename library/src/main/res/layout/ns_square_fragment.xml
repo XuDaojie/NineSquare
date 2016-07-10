@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="@android:color/black"
     tools:paddingBottom="45dp">
 
     <me.xdj.ninesquare.photoview.HackyViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@android:color/holo_red_dark" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/pager_number_tv"

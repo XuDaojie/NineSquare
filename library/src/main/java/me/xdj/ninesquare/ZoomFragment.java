@@ -6,25 +6,21 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import me.xdj.ninesquare.photoview.HackyViewPager;
@@ -33,7 +29,7 @@ import me.xdj.ninesquare.photoview.MyPhotoViewAttacher;
 /**
  * Created by xdj on 16/7/5.
  */
-public class NineSquareFragment extends DialogFragment {
+public class ZoomFragment extends Fragment {
 
     public static final String POSITION = "position";
     public static final String PAGER_COUNT = "pager_count";
@@ -51,12 +47,14 @@ public class NineSquareFragment extends DialogFragment {
     private ITarget mTarget;
     private ImageFragment.PhotoAdapter mPhotoAdapter;
 
-    public static NineSquareFragment newInstance(int currentImgPosition, int pagerCount) {
+    private int mStateBarColor;
+
+    public static ZoomFragment newInstance(int currentImgPosition, int pagerCount) {
         Bundle bundle = new Bundle();
         bundle.putInt(POSITION, currentImgPosition);
         bundle.putInt(PAGER_COUNT, pagerCount);
 
-        NineSquareFragment fragment = new NineSquareFragment();
+        ZoomFragment fragment = new ZoomFragment();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -66,27 +64,21 @@ public class NineSquareFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
-//        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mStateBarColor = mActivity.getWindow().getStatusBarColor();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity
+                    .getWindow()
+                    .setStatusBarColor(ContextCompat.getColor(mActivity, android.R.color.black));
+        }
 
         Bundle bundle = getArguments();
         if (bundle == null) return;
 
         mCurrentImgPosition = bundle.getInt(POSITION);
         mPagerCount = bundle.getInt(PAGER_COUNT);
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        //return super.onCreateDialog(savedInstanceState);
-        return new Dialog(getActivity(), getTheme()) {
-            @Override
-            public void onBackPressed() {
-                //super.onBackPressed();
-                playZoomOutAnimator(mTarget.getTargetView(mCurrentImgPosition));
-            }
-        };
     }
 
     @Nullable
@@ -140,8 +132,12 @@ public class NineSquareFragment extends DialogFragment {
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
-//        mRoot.setBackgroundResource(android.R.color.black);
-        mRoot.setBackgroundResource(android.R.color.holo_red_dark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity
+                    .getWindow()
+                    .setStatusBarColor(ContextCompat.getColor(mActivity, android.R.color.black));
+        }
+        mRoot.setBackgroundResource(android.R.color.black);
 
         Rect startBounds = new Rect();
         Rect finalBounds = new Rect();
@@ -213,6 +209,11 @@ public class NineSquareFragment extends DialogFragment {
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mActivity
+                    .getWindow()
+                    .setStatusBarColor(mStateBarColor);
+        }
         mRoot.setBackgroundResource(android.R.color.transparent);
 
         Rect startBounds = new Rect();
@@ -252,13 +253,13 @@ public class NineSquareFragment extends DialogFragment {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                NineSquareFragment.this.dismiss();
+                dismiss();
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
                 super.onAnimationCancel(animation);
-                NineSquareFragment.this.dismiss();
+                dismiss();
             }
         });
         set
@@ -320,5 +321,12 @@ public class NineSquareFragment extends DialogFragment {
         } else {
             dismiss();
         }
+    }
+
+    public void dismiss() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.hide(ZoomFragment.this);
+        ft.commit();
     }
 }
