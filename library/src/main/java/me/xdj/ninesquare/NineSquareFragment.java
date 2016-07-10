@@ -6,9 +6,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +54,7 @@ public class NineSquareFragment extends DialogFragment {
 
         NineSquareFragment fragment = new NineSquareFragment();
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -57,13 +62,26 @@ public class NineSquareFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
-
+//        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme);
 
         Bundle bundle = getArguments();
         if (bundle == null) return;
 
         mCurrentImgPosition = bundle.getInt(POSITION);
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //return super.onCreateDialog(savedInstanceState);
+        return new Dialog(getActivity(), getTheme()) {
+            @Override
+            public void onBackPressed() {
+                //super.onBackPressed();
+                playZoomOutAnimator(mTarget.getTargetView(mCurrentImgPosition));
+            }
+        };
     }
 
     @Nullable
@@ -73,6 +91,18 @@ public class NineSquareFragment extends DialogFragment {
         mRoot = LayoutInflater.from(mActivity).inflate(R.layout.ns_square_fragment, container, false);
         mViewPager = (HackyViewPager) mRoot.findViewById(R.id.view_pager);
         mPagerNumberTv = (TextView) mRoot.findViewById(R.id.pager_number_tv);
+
+        mRoot.setBackgroundResource(android.R.color.black);
+
+        mRoot.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    Log.d("xxx", "aa");
+                }
+                return false;
+            }
+        });
 
         mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
         mViewPager.setCurrentItem(mCurrentImgPosition);
@@ -98,6 +128,17 @@ public class NineSquareFragment extends DialogFragment {
         return mRoot;
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (this.isVisible()) {
+
+        } else {
+            super.onDismiss(dialog);
+        }
+    }
+
+
+
     public void setTarget(ITarget target) {
         mTarget = target;
     }
@@ -115,6 +156,7 @@ public class NineSquareFragment extends DialogFragment {
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
+        mRoot.setBackgroundResource(android.R.color.black);
 
         Rect startBounds = new Rect();
         Rect finalBounds = new Rect();
@@ -187,6 +229,8 @@ public class NineSquareFragment extends DialogFragment {
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
+        mRoot.setBackgroundResource(android.R.color.transparent);
+
 
         Rect startBounds = new Rect();
         Rect finalBounds = new Rect();
@@ -297,4 +341,12 @@ public class NineSquareFragment extends DialogFragment {
         View getTargetView(int position);
     }
 
+    public void dismiss(boolean playAnimator) {
+        if (playAnimator) {
+            View view = mTarget.getTargetView(mCurrentImgPosition);
+            playZoomOutAnimator(view);
+        } else {
+            dismiss();
+        }
+    }
 }

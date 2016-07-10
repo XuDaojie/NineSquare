@@ -1,7 +1,9 @@
 package me.xdj.ninesquare.sample;
 
 import android.animation.Animator;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new NineSquareAdapter());
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     class NineSquareAdapter extends RecyclerView.Adapter<NineSquareViewHolder> {
 
         @Override
@@ -98,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
-
                     mDialogFragment = NineSquareFragment.newIntance(mCurrentImgPosition);
+//                    mDialogFragment.setCancelable(false);
                     mDialogFragment.setTarget(new NineSquareFragment.ITarget() {
                         @Override
                         public View getTargetView(int pos) {
