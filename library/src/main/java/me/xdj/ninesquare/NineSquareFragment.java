@@ -24,6 +24,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import me.xdj.ninesquare.photoview.HackyViewPager;
@@ -96,6 +97,7 @@ public class NineSquareFragment extends DialogFragment {
         mPagerNumberTv = (TextView) mRoot.findViewById(R.id.pager_number_tv);
 
         mRoot.setBackgroundResource(android.R.color.black);
+        mPagerNumberTv.setText(mCurrentImgPosition + 1 + "/" + 9);
 
         mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
         mViewPager.setCurrentItem(mCurrentImgPosition);
@@ -134,11 +136,11 @@ public class NineSquareFragment extends DialogFragment {
     }
 
     private void playZoomInAnimator(final View targetView) {
-
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
-        mRoot.setBackgroundResource(android.R.color.black);
+//        mRoot.setBackgroundResource(android.R.color.black);
+        mRoot.setBackgroundResource(android.R.color.holo_red_dark);
 
         Rect startBounds = new Rect();
         Rect finalBounds = new Rect();

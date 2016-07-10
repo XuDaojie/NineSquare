@@ -38,6 +38,7 @@ public class MyPhotoViewAttacher extends PhotoViewAttacher {
                 // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
                 ImageView imageView = getImageView();
 
+                if (imageView == null) return false;
                 Matrix m = imageView.getImageMatrix();
                 float[] values = new float[10];
                 m.getValues(values);
