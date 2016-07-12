@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -146,8 +147,12 @@ public class ZoomFragment extends Fragment {
         targetView.getGlobalVisibleRect(startBounds);
         mActivity.getWindow().getDecorView().getGlobalVisibleRect(finalBounds, globalOffset);
 
-        startBounds.offset(-globalOffset.x, -globalOffset.y);
-        finalBounds.offset(-globalOffset.x, -globalOffset.y);
+        int statusBarHeight = getStatusBarHeight(mActivity);
+//        statusBarHeight = getResources().getDimensionPixelSize(R.dimen.states_bar_height);
+        startBounds.offset(-globalOffset.x, -(statusBarHeight + globalOffset.y));
+        finalBounds.offset(-globalOffset.x, -(statusBarHeight + globalOffset.y));
+//        startBounds.offset(-globalOffset.x, -globalOffset.y);
+//        finalBounds.offset(-globalOffset.x, -globalOffset.y);
 
         float startScale;
 
@@ -223,8 +228,12 @@ public class ZoomFragment extends Fragment {
         targetView.getGlobalVisibleRect(startBounds);
         mActivity.getWindow().getDecorView().getGlobalVisibleRect(finalBounds, globalOffset);
 
-        startBounds.offset(-globalOffset.x, -globalOffset.y);
-        finalBounds.offset(-globalOffset.x, -globalOffset.y);
+        int statusBarHeight = getStatusBarHeight(mActivity);
+//        statusBarHeight = getResources().getDimensionPixelSize(R.dimen.states_bar_height);
+        startBounds.offset(-globalOffset.x, -(statusBarHeight + globalOffset.y));
+        finalBounds.offset(-globalOffset.x, -(statusBarHeight + globalOffset.y));
+//        startBounds.offset(-globalOffset.x, -globalOffset.y);
+//        finalBounds.offset(-globalOffset.x, -globalOffset.y);
 
         float startScale;
 
@@ -308,6 +317,7 @@ public class ZoomFragment extends Fragment {
     public interface ITarget {
         /**
          * 获得缩小目标的View
+         *
          * @param position 当前图片position
          * @return
          */
@@ -328,5 +338,15 @@ public class ZoomFragment extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
         ft.hide(ZoomFragment.this);
         ft.commit();
+    }
+
+    public int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen",
+                "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

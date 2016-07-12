@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
     tools:context="me.xdj.ninesquare.sample.MainActivity">
 
     <LinearLayout
@@ -16,48 +17,20 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Title"
-            android:background="@color/colorPrimaryDark"/>
+            android:background="@color/colorPrimary"
+            app:title="Title" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="仿微信图片放大效果"/>
+            android:orientation="vertical"
+            android:background="@android:color/background_light">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 
-    <!--<View-->
-        <!--android:id="@+id/background_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@android:color/black"-->
-        <!--android:visibility="invisible"/>-->
-
-    <!--<me.xdj.ninesquare.photoview.HackyViewPager-->
-        <!--android:id="@+id/view_pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:visibility="invisible"/>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/pager_number_tv"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|center_horizontal"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--android:text="1/9"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:visibility="invisible"-->
-        <!--tools:textColor="@android:color/white"-->
-        <!--tools:visibility="visible"/>-->
 </FrameLayout>

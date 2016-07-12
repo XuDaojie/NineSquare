@@ -7,10 +7,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,11 +18,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import me.xdj.ninesquare.photoview.HackyViewPager;
@@ -67,6 +63,7 @@ public class NineSquareFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogTheme);
+//        getActivity().getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
 //        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Black_NoTitleBar);
 
         Bundle bundle = getArguments();
@@ -122,6 +119,12 @@ public class NineSquareFragment extends DialogFragment {
         playZoomInAnimator(view);
 
         return mRoot;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     }
 
     public void setTarget(ITarget target) {
@@ -267,7 +270,7 @@ public class NineSquareFragment extends DialogFragment {
                 .with(ObjectAnimator.ofFloat(mViewPager, View.SCALE_X, startScale))
                 .with(ObjectAnimator.ofFloat(mViewPager, View.SCALE_Y, startScale));
 
-        set.setDuration(300);
+        set.setDuration(150);
         set.start();
         mCurrentAnimator = set;
     }
