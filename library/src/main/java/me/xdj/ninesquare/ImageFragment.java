@@ -47,7 +47,7 @@ public class ImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRoot = LayoutInflater.from(getActivity()).inflate(R.layout.ns_image_fragment, container, false);
+        mRoot = LayoutInflater.from(getActivity()).inflate(R.layout.ns_image_frag, container, false);
 
         mZoomIv = (MyPhotoView) mRoot.findViewById(R.id.zoom_iv);
 

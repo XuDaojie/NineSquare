@@ -90,7 +90,7 @@ public class NineSquareFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRoot = LayoutInflater.from(mActivity).inflate(R.layout.ns_square_fragment, container, false);
+        mRoot = LayoutInflater.from(mActivity).inflate(R.layout.ns_square_frag, container, false);
         mViewPager = (HackyViewPager) mRoot.findViewById(R.id.view_pager);
         mPagerNumberTv = (TextView) mRoot.findViewById(R.id.pager_number_tv);
 

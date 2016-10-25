@@ -61,7 +61,7 @@ public class ZoomActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(me.xdj.ninesquare.R.layout.ns_square_fragment);
+        setContentView(me.xdj.ninesquare.R.layout.ns_square_frag);
         mActivity = this;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
