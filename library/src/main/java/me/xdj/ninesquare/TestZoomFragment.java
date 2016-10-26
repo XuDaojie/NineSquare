@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -28,10 +27,11 @@ import me.xdj.ninesquare.photoview.HackyViewPager;
 public class TestZoomFragment extends Fragment {
 
     private Activity mActivity;
-    private View mRoot;
+    private View mRootView;
 
-    HackyViewPager mViewPager;
-    TextView mPagerNumberTv;
+    private HackyViewPager mViewPager;
+    private OnPageChangeListener mOnPageChangeListener;
+
 
     private int mCurrentPosition;
     private ArrayList<String> mImages;
@@ -68,12 +68,10 @@ public class TestZoomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRoot = LayoutInflater.from(mActivity).inflate(R.layout.ns_square_frag, container, false);
-        mViewPager = (HackyViewPager) mRoot.findViewById(R.id.view_pager);
-        mPagerNumberTv = (TextView) mRoot.findViewById(R.id.pager_number_tv);
+        mRootView = LayoutInflater.from(mActivity).inflate(R.layout.ns_zoom_frag, container, false);
+        mViewPager = (HackyViewPager) mRootView.findViewById(R.id.view_pager);
 
-        mRoot.setBackgroundResource(android.R.color.black);
-        mPagerNumberTv.setText(mCurrentPosition + 1 + "/" + mImages.size());
+        mRootView.setBackgroundResource(android.R.color.black);
 
         mViewPager.setAdapter(new PagerAdapter(getChildFragmentManager()));
         mViewPager.setCurrentItem(mCurrentPosition);
@@ -86,7 +84,9 @@ public class TestZoomFragment extends Fragment {
             public void onPageSelected(int position) {
                 if (BuildConfig.DEBUG) Log.d("onPageSelected", position + "");
                 mCurrentPosition = position;
-                mPagerNumberTv.setText(position + 1 + "/" + mImages.size());
+                if (mOnPageChangeListener != null) {
+                    mOnPageChangeListener.onPageSelected(position);
+                }
             }
 
             @Override
@@ -94,7 +94,11 @@ public class TestZoomFragment extends Fragment {
             }
         });
 
-        return mRoot;
+        return mRootView;
+    }
+
+    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
+        mOnPageChangeListener = onPageChangeListener;
     }
 
     class PagerAdapter extends FragmentPagerAdapter {
@@ -124,5 +128,9 @@ public class TestZoomFragment extends Fragment {
         public int getCount() {
             return mImages.size();
         }
+    }
+
+    public interface OnPageChangeListener {
+        void onPageSelected(int position);
     }
 }

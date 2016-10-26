@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -71,12 +72,26 @@ public class TestZoomActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        getSupportActionBar().setTitle(mCurrentPosition + 1 + " / " + mImages.size());
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         TestZoomFragment fragment = (TestZoomFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame);
         if (fragment == null) {
             fragment = TestZoomFragment.newInstance(mImages, mThumbnails, mCurrentPosition);
+            fragment.setOnPageChangeListener(new TestZoomFragment.OnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    getSupportActionBar().setTitle(position + 1 + " / " + mImages.size());
+                }
+            });
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.content_frame, fragment);
@@ -86,8 +101,8 @@ public class TestZoomActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        return super.onPrepareOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.zoom_menu, menu);
-        return true;
+        return super.onPrepareOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.zoom_menu, menu);
+//        return true;
     }
 }

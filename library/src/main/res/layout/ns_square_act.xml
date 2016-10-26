@@ -8,16 +8,17 @@
     tools:paddingBottom="45dp"
     tools:context=".TestZoomActivity">
 
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?android:attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:background="@android:color/holo_blue_light"/>
 
 </FrameLayout>
