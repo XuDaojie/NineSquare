@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ZoomActivity"/>
+        <activity android:name="me.xdj.ninesquare.TestZoomActivity"/>
     </application>
 
 </manifest>

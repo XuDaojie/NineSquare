@@ -18,8 +18,7 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xdj.ninesquare.ImageFragment;
-import me.xdj.ninesquare.NineSquareFragment;
+import me.xdj.ninesquare.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
-
+// ---- DialogFragment start --
 //                    mDialogFragment = ZoomFragment.newInstance(mCurrentImgPosition, getItemCount());
 //                    mDialogFragment.setTarget(new ZoomFragment.ITarget() {
 //                        @Override
@@ -135,12 +134,13 @@ public class MainActivity extends AppCompatActivity {
 //                    ft.replace(R.id.container, mDialogFragment);
 //                    ft.addToBackStack(null);
 //                    ft.commit();
+// ---- DialogFragment end --
 
                     if (mCurrentItemPosition == 0) {
-                        ZoomActivity.startActivity(MainActivity.this, mCurrentImgPosition,
-                                getItemCount(), mBigImgUrl);
+//                        ZoomActivity.startActivity(MainActivity.this, mCurrentImgPosition,
+//                                getItemCount(), mBigImgUrl);
+                        TestZoomActivity.startActivity(MainActivity.this, mBigImgUrl, mImgUrl, 0);
                     } else {
-
                         mDialogFragment = NineSquareFragment.newInstance(mCurrentImgPosition, getItemCount());
                         mDialogFragment.setTarget(new NineSquareFragment.ITarget() {
                             @Override
@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
                         });
                         mDialogFragment.show(getSupportFragmentManager(), "NineSquare");
                     }
+
+
                 }
             });
         }
