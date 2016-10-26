@@ -7,7 +7,7 @@
 
 ``` java
 // mThumbnails 为缩略图目前还没卵用
-ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO, mBigImgUrl, mImgUrl, mCurrentImgPosition);
+ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO, mImages, mThumbnails, mCurrentImgPosition);
 ```
 
 ## How to
@@ -25,6 +25,9 @@ allprojects {
 ``` gralde
 dependencies {
     compile 'com.github.XuDaojie:NineSquare:9efa688515'
+    // 按需引入
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 ```
 

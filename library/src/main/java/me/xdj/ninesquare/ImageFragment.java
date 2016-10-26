@@ -1,7 +1,6 @@
 package me.xdj.ninesquare;
 
 import android.animation.Animator;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,7 @@ public class ImageFragment extends Fragment {
 
     private MyPhotoView mZoomIv;
 
-    private View mRoot;
+    private View mRootView;
 
     private int mPosition;
 
@@ -47,26 +46,27 @@ public class ImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mRoot = LayoutInflater.from(getActivity()).inflate(R.layout.ns_image_frag, container, false);
+        if (mRootView == null) {
+            mRootView = LayoutInflater.from(getActivity()).inflate(R.layout.ns_image_frag, container, false);
 
-        mZoomIv = (MyPhotoView) mRoot.findViewById(R.id.zoom_iv);
+            mZoomIv = (MyPhotoView) mRootView.findViewById(R.id.zoom_iv);
 
-        Bundle bundle = getArguments();
-        mPosition = bundle.getInt(POSITION);
+            Bundle bundle = getArguments();
+            mPosition = bundle.getInt(POSITION);
 
-        if (mAdapter != null) {
-            mAdapter.loadPhoto(mPosition, mZoomIv);
+            if (mAdapter != null) {
+                mAdapter.loadPhoto(mPosition, mZoomIv);
+            }
+
+            //
+            mZoomIv.setOnDrawableClickListener(mOnDrawableClickListener);
         }
+//        // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
+//        Matrix m = mZoomIv.getImageMatrix();
+//        float[] values = new float[10];
+//        m.getValues(values);
 
-        //
-        mZoomIv.setOnDrawableClickListener(mOnDrawableClickListener);
-
-        // 得到`ImageView`中的矩阵，准备得到drawable的拉伸比率
-        Matrix m = mZoomIv.getImageMatrix();
-        float[] values = new float[10];
-        m.getValues(values);
-
-        return mRoot;
+        return mRootView;
     }
 
     public PhotoAdapter getAdapter() {
