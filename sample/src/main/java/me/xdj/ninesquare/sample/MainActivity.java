@@ -13,12 +13,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xdj.ninesquare.*;
+import me.xdj.ninesquare.ZoomActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private int mCurrentImgPosition = -1;
     //    private View mCurrentView; // 当前选中View
     private int mStateBarColor;
-
-    private NineSquareFragment mDialogFragment;
-//    private ZoomFragment mDialogFragment;
 
     public static final String[] mImgUrl = new String[]{
             "http://ww2.sinaimg.cn/thumb180/8f1fe6aajw1f5gtp60m71j216o1kwq7p.jpg",
@@ -71,15 +67,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new NineSquareAdapter());
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (mDialogFragment != null && mDialogFragment.isVisible()) {
-//            mDialogFragment.dismiss(true);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-
     class NineSquareAdapter extends RecyclerView.Adapter<NineSquareViewHolder> {
 
         @Override
@@ -102,75 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
-// ---- DialogFragment start --
-//                    mDialogFragment = ZoomFragment.newInstance(mCurrentImgPosition, getItemCount());
-//                    mDialogFragment.setTarget(new ZoomFragment.ITarget() {
-//                        @Override
-//                        public View getTargetView(int pos) {
-//                            return recyclerView.findViewHolderForAdapterPosition(pos).itemView;
-//                        }
-//                    });
-//                    mDialogFragment.setPhotoAdapter(new ImageFragment.PhotoAdapter() {
-//                        @Override
-//                        public void loadPhoto(int pos, ImageView imageView) {
-//                            // 通过另一个请求加载缩略图
-//                            DrawableRequestBuilder<String> thumbRequest = Glide
-//                                    .with(MainActivity.this)
-//                                    .load(MainActivity.mImgUrl[pos]);
-//
-//                            Glide
-//                                    .with(MainActivity.this)
-//                                    .load(MainActivity.mBigImgUrl[pos])
-//                                    .dontAnimate()
-//                                    .dontTransform()
-//                                    .placeholder(R.drawable.img_place)
-//                                    .error(R.drawable.img_error)
-//                                    .thumbnail(thumbRequest)
-//                                    .into(imageView);
-//                        }
-//                    });
-//                    FragmentManager fm = getSupportFragmentManager();
-//                    FragmentTransaction ft = fm.beginTransaction();
-//                    ft.replace(R.id.container, mDialogFragment);
-//                    ft.addToBackStack(null);
-//                    ft.commit();
-// ---- DialogFragment end --
 
-                    if (mCurrentItemPosition == 0) {
-//                        ZoomActivity.startActivity(MainActivity.this, mCurrentImgPosition,
-//                                getItemCount(), mBigImgUrl);
-                        TestZoomActivity.startActivity(MainActivity.this, mBigImgUrl, mImgUrl, 0);
-                    } else {
-                        mDialogFragment = NineSquareFragment.newInstance(mCurrentImgPosition, getItemCount());
-                        mDialogFragment.setTarget(new NineSquareFragment.ITarget() {
-                            @Override
-                            public View getTargetView(int pos) {
-                                return recyclerView.findViewHolderForAdapterPosition(pos).itemView;
-                            }
-                        });
-                        mDialogFragment.setPhotoAdapter(new ImageFragment.PhotoAdapter() {
-                            @Override
-                            public void loadPhoto(int pos, ImageView imageView) {
-                                // 通过另一个请求加载缩略图
-                                DrawableRequestBuilder<String> thumbRequest = Glide
-                                        .with(MainActivity.this)
-                                        .load(MainActivity.mImgUrl[pos]);
-
-                                Glide
-                                        .with(MainActivity.this)
-                                        .load(MainActivity.mBigImgUrl[pos])
-                                        .dontAnimate()
-                                        .dontTransform()
-                                        .placeholder(R.drawable.img_place)
-                                        .error(R.drawable.img_error)
-                                        .thumbnail(thumbRequest)
-                                        .into(imageView);
-                            }
-                        });
-                        mDialogFragment.show(getSupportFragmentManager(), "NineSquare");
-                    }
-
-
+                    ZoomActivity.startActivity(MainActivity.this, mBigImgUrl, mImgUrl, mCurrentImgPosition);
                 }
             });
         }

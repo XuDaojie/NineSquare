@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:background="@android:color/black"
     tools:paddingBottom="45dp"
-    tools:context=".TestZoomActivity">
+    tools:context=".ZoomActivity">
 
     <FrameLayout
         android:id="@+id/content_frame"

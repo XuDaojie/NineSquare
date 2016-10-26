@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by xdj on 2016/10/26.
  */
 
-public class TestZoomActivity extends AppCompatActivity {
+public class ZoomActivity extends AppCompatActivity {
 
     private ArrayList<String> mImages;
     private ArrayList<String> mThumbnails;
@@ -29,7 +29,7 @@ public class TestZoomActivity extends AppCompatActivity {
 
     public static void startActivity(@NonNull Context context, @NonNull ArrayList<String> images,
                                      ArrayList<String> thumbnails, int currentPosition) {
-        Intent i = new Intent(context, TestZoomActivity.class);
+        Intent i = new Intent(context, ZoomActivity.class);
         i.putExtra(Constants.IMAGE, images);
         i.putExtra(Constants.THUMBNAIL, thumbnails);
         i.putExtra(Constants.CURRENT_POSITION, currentPosition);
@@ -50,7 +50,7 @@ public class TestZoomActivity extends AppCompatActivity {
             }
         }
 
-        Intent i = new Intent(context, TestZoomActivity.class);
+        Intent i = new Intent(context, ZoomActivity.class);
         i.putExtra(Constants.IMAGE, imageArrayList);
         i.putExtra(Constants.THUMBNAIL, thumbnailArrayList);
         i.putExtra(Constants.CURRENT_POSITION, currentPosition);
@@ -82,11 +82,11 @@ public class TestZoomActivity extends AppCompatActivity {
             }
         });
 
-        TestZoomFragment fragment = (TestZoomFragment) getSupportFragmentManager()
+        ZoomFragment fragment = (ZoomFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame);
         if (fragment == null) {
-            fragment = TestZoomFragment.newInstance(mImages, mThumbnails, mCurrentPosition);
-            fragment.setOnPageChangeListener(new TestZoomFragment.OnPageChangeListener() {
+            fragment = ZoomFragment.newInstance(mImages, mThumbnails, mCurrentPosition);
+            fragment.setOnPageChangeListener(new ZoomFragment.OnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     getSupportActionBar().setTitle(position + 1 + " / " + mImages.size());
