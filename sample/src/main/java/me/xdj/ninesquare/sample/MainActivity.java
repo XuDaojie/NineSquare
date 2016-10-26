@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.xdj.ninesquare.ImageLoader;
 import me.xdj.ninesquare.ZoomActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
 
-                    ZoomActivity.startActivity(MainActivity.this, mBigImgUrl, mImgUrl, mCurrentImgPosition);
+                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO, mBigImgUrl, mImgUrl, mCurrentImgPosition);
                 }
             });
         }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,13 +35,15 @@ public class ZoomFragment extends Fragment {
 
 
     private int mCurrentPosition;
+    private int mImageLoader;
+    private ImageFragment.PhotoAdapter mPhotoAdapter;
     private ArrayList<String> mImages;
     private ArrayList<String> mThumbnails;
-    private ImageFragment.PhotoAdapter mPhotoAdapter;
 
-    public static ZoomFragment newInstance(@NonNull ArrayList<String> images,
+    public static ZoomFragment newInstance(int imageLoader, @NonNull ArrayList<String> images,
                                            ArrayList<String> thumbnails, int currentPosition) {
         Bundle bundle = new Bundle();
+        bundle.putInt(Constants.IMAGE_LOADER, imageLoader);
         bundle.putStringArrayList(Constants.IMAGE, images);
         bundle.putStringArrayList(Constants.THUMBNAIL, thumbnails);
         bundle.putInt(Constants.CURRENT_POSITION, currentPosition);
@@ -59,6 +62,7 @@ public class ZoomFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle == null) return;
 
+        mImageLoader = bundle.getInt(Constants.IMAGE_LOADER);
         mCurrentPosition = bundle.getInt(Constants.CURRENT_POSITION);
         mImages = bundle.getStringArrayList(Constants.IMAGE);
         mThumbnails = bundle.getStringArrayList(Constants.THUMBNAIL);
@@ -113,12 +117,21 @@ public class ZoomFragment extends Fragment {
             fragment.setAdapter(new ImageFragment.PhotoAdapter() {
                 @Override
                 public void loadPhoto(int position, ImageView imageView) {
-                    Glide
-                            .with(mActivity)
-                            .load(mImages.get(position))
-                            .dontAnimate()
-                            .dontTransform()
-                            .into(imageView);
+                    if (mImageLoader == ImageLoader.GLIDE) {
+                        Glide
+                                .with(mActivity)
+                                .load(mImages.get(position))
+                                .dontAnimate()
+                                .dontTransform()
+                                .into(imageView);
+                    } else if (mImageLoader == ImageLoader.PICASSO) {
+                        Picasso
+                                .with(mActivity)
+                                .load(mImages.get(position))
+                                .into(imageView);
+                    } else {
+                        throw new RuntimeException("not support imageLoader = " + mImageLoader);
+                    }
                 }
             });
             return fragment;

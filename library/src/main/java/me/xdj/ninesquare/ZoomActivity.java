@@ -21,22 +21,24 @@ import java.util.ArrayList;
 
 public class ZoomActivity extends AppCompatActivity {
 
+    private int mImageLoader;
     private ArrayList<String> mImages;
     private ArrayList<String> mThumbnails;
     private int mCurrentPosition;
 
     private Toolbar mToolbar;
 
-    public static void startActivity(@NonNull Context context, @NonNull ArrayList<String> images,
+    public static void startActivity(@NonNull Context context, int imageLoader, @NonNull ArrayList<String> images,
                                      ArrayList<String> thumbnails, int currentPosition) {
         Intent i = new Intent(context, ZoomActivity.class);
+        i.putExtra(Constants.IMAGE_LOADER, imageLoader);
         i.putExtra(Constants.IMAGE, images);
         i.putExtra(Constants.THUMBNAIL, thumbnails);
         i.putExtra(Constants.CURRENT_POSITION, currentPosition);
         context.startActivity(i);
     }
 
-    public static void startActivity(@NonNull Context context, @NonNull String[] images,
+    public static void startActivity(@NonNull Context context, int imageLoader, @NonNull String[] images,
                                      String[] thumbnails, int currentPosition) {
         ArrayList<String> imageArrayList = new ArrayList<>();
         ArrayList<String> thumbnailArrayList = null;
@@ -50,11 +52,7 @@ public class ZoomActivity extends AppCompatActivity {
             }
         }
 
-        Intent i = new Intent(context, ZoomActivity.class);
-        i.putExtra(Constants.IMAGE, imageArrayList);
-        i.putExtra(Constants.THUMBNAIL, thumbnailArrayList);
-        i.putExtra(Constants.CURRENT_POSITION, currentPosition);
-        context.startActivity(i);
+        startActivity(context, imageLoader, imageArrayList, thumbnailArrayList, currentPosition);
     }
 
     @Override
@@ -66,9 +64,10 @@ public class ZoomActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        mImages = getIntent().getStringArrayListExtra("image");
-        mThumbnails = getIntent().getStringArrayListExtra("thumbnail");
-        mCurrentPosition = getIntent().getIntExtra("current_position", 0);
+        mImageLoader = getIntent().getIntExtra(Constants.IMAGE_LOADER, ImageLoader.GLIDE);
+        mImages = getIntent().getStringArrayListExtra(Constants.IMAGE);
+        mThumbnails = getIntent().getStringArrayListExtra(Constants.THUMBNAIL);
+        mCurrentPosition = getIntent().getIntExtra(Constants.CURRENT_POSITION, 0);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -85,7 +84,7 @@ public class ZoomActivity extends AppCompatActivity {
         ZoomFragment fragment = (ZoomFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame);
         if (fragment == null) {
-            fragment = ZoomFragment.newInstance(mImages, mThumbnails, mCurrentPosition);
+            fragment = ZoomFragment.newInstance(mImageLoader, mImages, mThumbnails, mCurrentPosition);
             fragment.setOnPageChangeListener(new ZoomFragment.OnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {

@@ -3,11 +3,11 @@
 <br>
 查看大图乞丐版封装
 ## Use
-使用Glide加载图片
+目前支持Glide、Picasso加载图片
 
 ``` java
 // mThumbnails 为缩略图目前还没卵用
-ZoomActivity.startActivity(mContext, mImages, mThumbnails, mCurrentImgPosition);
+ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO, mBigImgUrl, mImgUrl, mCurrentImgPosition);
 ```
 
 ## How to
@@ -29,5 +29,5 @@ dependencies {
 ```
 
 ## Thanks 
-<br>[得到ImageView中drawable显示的区域的计算方法](http://www.cnblogs.com/tianzhijiexian/p/4104836.html)
+[得到ImageView中drawable显示的区域的计算方法](http://www.cnblogs.com/tianzhijiexian/p/4104836.html)
 <br>[android-testing](https://github.com/googlesamples/android-testing)
