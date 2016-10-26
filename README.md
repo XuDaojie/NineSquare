@@ -24,7 +24,7 @@ allprojects {
 ### Step2. Add the dependency
 ``` gralde
 dependencies {
-    compile 'com.github.XuDaojie:NineSquare:9efa688515'
+    compile 'com.github.XuDaojie:NineSquare:v0.1.0'
     // 按需引入
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
