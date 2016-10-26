@@ -6,6 +6,7 @@
 使用Glide加载图片
 
 ``` java
+// mThumbnails 为缩略图目前还没卵用
 ZoomActivity.startActivity(mContext, mImages, mThumbnails, mCurrentImgPosition);
 ```
 
