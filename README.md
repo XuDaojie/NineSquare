@@ -22,7 +22,7 @@ allprojects {
 }
 ```
 ### Step2. Add the dependency
-``` gralde
+``` gradle
 dependencies {
     compile 'com.github.XuDaojie:NineSquare:v0.1.0'
     // 按需引入
