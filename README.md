@@ -1,9 +1,8 @@
 # UNDONE NineSquare
 [![](https://jitpack.io/v/XuDaojie/NineSquare.svg)](https://jitpack.io/#XuDaojie/NineSquare)
-
+查看大图乞丐版封装
 ## Use
-API 19
-parentActivity 的主题要进行调整
+使用Glide加载图片
 
 ``` java
 ZoomActivity.startActivity(mContext, mImages, mThumbnails, mCurrentImgPosition);
