@@ -15,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import me.xudaojie.frecozoomable.ZoomableDraweeView;
 import me.xudaojie.ninesquare.photoview.HackyViewPager;
 
 /**
@@ -113,22 +116,31 @@ public class ZoomFragment extends Fragment {
 
         @Override
         public Fragment getItem(final int position) {
-            ImageFragment fragment = ImageFragment.newInstance(position);
+            ImageFragment fragment = ImageFragment.newInstance(mImageLoader, position);
             fragment.setAdapter(new ImageFragment.PhotoAdapter() {
                 @Override
                 public void loadPhoto(int position, ImageView imageView) {
+                    String imageUri = mImages.get(position);
+
                     if (mImageLoader == ImageLoader.GLIDE) {
                         Glide
                                 .with(mActivity)
-                                .load(mImages.get(position))
+                                .load(imageUri)
                                 .dontAnimate()
                                 .dontTransform()
                                 .into(imageView);
                     } else if (mImageLoader == ImageLoader.PICASSO) {
                         Picasso
                                 .with(mActivity)
-                                .load(mImages.get(position))
+                                .load(imageUri)
                                 .into(imageView);
+                    } else if (mImageLoader == ImageLoader.FRESCO) {
+                        ZoomableDraweeView draweeView = (ZoomableDraweeView) imageView;
+                        draweeView.setAllowTouchInterceptionWhileZoomed(true);
+                        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                                .setUri(imageUri)
+                                .build();
+                        draweeView.setController(controller);
                     } else {
                         throw new RuntimeException("not support imageLoader = " + mImageLoader);
                     }
