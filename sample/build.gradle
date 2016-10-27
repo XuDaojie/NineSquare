@@ -25,10 +25,6 @@ android {
     }
 }
 
-repositories {
-    maven { url "https://jitpack.io" }
-}
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
@@ -47,6 +43,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 //    compile 'com.facebook.fresco:fresco:0.14.1'
 
-    compile 'com.github.XuDaojie:NineSquare:384c1a4345'
-//    compile project(':library')
+//    compile 'com.github.XuDaojie:NineSquare:548117455d'
+    compile project(':library')
 }
