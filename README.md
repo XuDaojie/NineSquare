@@ -13,7 +13,7 @@
 
 ``` java
 // mThumbnails 为缩略图目前还没卵用
-ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO, mImages, mThumbnails, mCurrentImgPosition);
+ZoomActivity.startActivity(mContext, ImageLoader.PICASSO, mImages, mThumbnails, mCurrentImgPosition);
 ```
 
 ## How to
