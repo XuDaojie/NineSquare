@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xudaojie.ninesquare;
 
 import android.content.Context;
 import android.content.Intent;

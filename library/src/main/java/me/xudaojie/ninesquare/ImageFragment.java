@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xudaojie.ninesquare;
 
 import android.animation.Animator;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import me.xdj.ninesquare.photoview.MyPhotoView;
-import me.xdj.ninesquare.photoview.MyPhotoViewAttacher;
+import me.xudaojie.ninesquare.photoview.MyPhotoView;
+import me.xudaojie.ninesquare.photoview.MyPhotoViewAttacher;
 
 /**
  * Created by xdj on 16/6/30.

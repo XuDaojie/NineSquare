@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <me.xdj.ninesquare.photoview.MyPhotoView
+    <me.xudaojie.ninesquare.photoview.MyPhotoView
         android:id="@+id/zoom_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

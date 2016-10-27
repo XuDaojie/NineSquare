@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.xdj.ninesquare.SquareImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<me.xudaojie.ninesquare.SquareImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

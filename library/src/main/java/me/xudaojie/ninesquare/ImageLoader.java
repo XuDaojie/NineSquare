@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xudaojie.ninesquare;
 
 /**
  * Created by xdj on 2016/10/26.

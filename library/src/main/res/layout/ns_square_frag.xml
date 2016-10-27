@@ -6,7 +6,7 @@
     tools:background="@android:color/black"
     tools:paddingBottom="45dp">
 
-    <me.xdj.ninesquare.photoview.HackyViewPager
+    <me.xudaojie.ninesquare.photoview.HackyViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -17,8 +17,8 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xdj.ninesquare.ImageLoader;
-import me.xdj.ninesquare.ZoomActivity;
+import me.xudaojie.ninesquare.ImageLoader;
+import me.xudaojie.ninesquare.ZoomActivity;
 
 public class MainActivity extends AppCompatActivity {
 

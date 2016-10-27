@@ -1,4 +1,4 @@
-package me.xdj.ninesquare;
+package me.xudaojie.ninesquare;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import me.xdj.ninesquare.photoview.HackyViewPager;
+import me.xudaojie.ninesquare.photoview.HackyViewPager;
 
 /**
  * Created by xdj on 2016/10/26.

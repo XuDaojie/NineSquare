@@ -1,4 +1,4 @@
-package me.xdj.ninesquare.photoview;
+package me.xudaojie.ninesquare.photoview;
 
 /**
  * Found at http://stackoverflow.com/questions/7814017/is-it-possible-to-disable-scrolling-on-a-viewpager.
