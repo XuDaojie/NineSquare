@@ -24,7 +24,7 @@ allprojects {
 ### Step2. Add the dependency
 ``` gradle
 dependencies {
-    compile 'com.github.XuDaojie:NineSquare:v0.1.0'
+    compile 'com.github.XuDaojie:NineSquare:v0.2.0'
     // 按需引入
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
