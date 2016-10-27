@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
 
-                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO, mBigImgUrl, mImgUrl, mCurrentImgPosition);
+                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.GLIDE, mBigImgUrl, mImgUrl, mCurrentImgPosition);
                 }
             });
         }
