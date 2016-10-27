@@ -31,8 +31,8 @@ allprojects {
 ``` gradle
 dependencies {
     compile 'com.github.XuDaojie:NineSquare:v0.3.0'
-    
-    // 按需引入 使用Glide、Picasso
+    // 以下按需引入
+    // 使用Glide、Picasso
     compile 'com.github.chrisbanes:PhotoView:v1.2.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
