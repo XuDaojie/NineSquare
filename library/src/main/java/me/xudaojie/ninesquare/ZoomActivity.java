@@ -25,21 +25,29 @@ public class ZoomActivity extends AppCompatActivity {
     private ArrayList<String> mImages;
     private ArrayList<String> mThumbnails;
     private int mCurrentPosition;
+    private int mPlaceholder = Constants.NONE;
+    private int mError = Constants.NONE;
 
     private Toolbar mToolbar;
 
-    public static void startActivity(@NonNull Context context, int imageLoader, @NonNull ArrayList<String> images,
-                                     ArrayList<String> thumbnails, int currentPosition) {
+    public static void startActivity(@NonNull Context context, int imageLoader,
+                                     @NonNull ArrayList<String> images, ArrayList<String> thumbnails,
+                                     int placeholder, int error,
+                                     int currentPosition) {
         Intent i = new Intent(context, ZoomActivity.class);
         i.putExtra(Constants.IMAGE_LOADER, imageLoader);
         i.putExtra(Constants.IMAGE, images);
         i.putExtra(Constants.THUMBNAIL, thumbnails);
+        i.putExtra(Constants.PLACEHOLDER, placeholder);
+        i.putExtra(Constants.ERROR, error);
         i.putExtra(Constants.CURRENT_POSITION, currentPosition);
         context.startActivity(i);
     }
 
-    public static void startActivity(@NonNull Context context, int imageLoader, @NonNull String[] images,
-                                     String[] thumbnails, int currentPosition) {
+    public static void startActivity(@NonNull Context context, int imageLoader,
+                                     @NonNull String[] images, String[] thumbnails,
+                                     int placeholder, int error,
+                                     int currentPosition) {
         ArrayList<String> imageArrayList = new ArrayList<>();
         ArrayList<String> thumbnailArrayList = null;
         for (String image : images) {
@@ -52,7 +60,15 @@ public class ZoomActivity extends AppCompatActivity {
             }
         }
 
-        startActivity(context, imageLoader, imageArrayList, thumbnailArrayList, currentPosition);
+        startActivity(context, imageLoader, imageArrayList, thumbnailArrayList,
+                placeholder, error, currentPosition);
+    }
+
+    public static void startActivity(@NonNull Context context, int imageLoader,
+                                     @NonNull String[] images, String[] thumbnails,
+                                     int currentPosition) {
+        startActivity(context, imageLoader, images, thumbnails,
+                Constants.NONE, Constants.NONE, currentPosition);
     }
 
     @Override
@@ -67,6 +83,8 @@ public class ZoomActivity extends AppCompatActivity {
         mImageLoader = getIntent().getIntExtra(Constants.IMAGE_LOADER, ImageLoader.GLIDE);
         mImages = getIntent().getStringArrayListExtra(Constants.IMAGE);
         mThumbnails = getIntent().getStringArrayListExtra(Constants.THUMBNAIL);
+        mPlaceholder = getIntent().getIntExtra(Constants.PLACEHOLDER, Constants.NONE);
+        mError = getIntent().getIntExtra(Constants.ERROR, Constants.NONE);
         mCurrentPosition = getIntent().getIntExtra(Constants.CURRENT_POSITION, 0);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,7 +102,9 @@ public class ZoomActivity extends AppCompatActivity {
         ZoomFragment fragment = (ZoomFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame);
         if (fragment == null) {
-            fragment = ZoomFragment.newInstance(mImageLoader, mImages, mThumbnails, mCurrentPosition);
+            fragment = ZoomFragment.newInstance(mImageLoader, mImages, mThumbnails,
+                    mPlaceholder, mError, mCurrentPosition);
+
             fragment.setOnPageChangeListener(new ZoomFragment.OnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {

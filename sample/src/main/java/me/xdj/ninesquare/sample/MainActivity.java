@@ -91,14 +91,17 @@ public class MainActivity extends AppCompatActivity {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
 
-                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.GLIDE, mBigImgUrl, mImgUrl, mCurrentImgPosition);
+                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO,
+                            mBigImgUrl, mImgUrl,
+                            R.drawable.img_place, R.drawable.img_error,
+                            mCurrentImgPosition);
                 }
             });
         }
 
         @Override
         public int getItemCount() {
-            return 9;
+            return mBigImgUrl.length;
         }
     }
 
