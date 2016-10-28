@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
 
-                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.PICASSO,
+                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO,
                             mBigImgUrl, mImgUrl,
                             R.drawable.img_place, R.drawable.img_error,
                             mCurrentImgPosition);

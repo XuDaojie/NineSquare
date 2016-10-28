@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -166,17 +164,18 @@ public class ZoomFragment extends Fragment {
                         }
                         creator.into(imageView);
                     } else if (mImageLoader == ImageLoader.FRESCO) {
-                        GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
-                                .setPlaceholderImage(mPlaceholder)
-                                .build();
+//                        GenericDraweeHierarchy hierarchy = new GenericDraweeHierarchyBuilder(getResources())
+//                                .setPlaceholderImage(mPlaceholder)
+//                                .setFailureImage(mError)
+//                                .build();
 
                         ZoomableDraweeView draweeView = (ZoomableDraweeView) imageView;
                         draweeView.setAllowTouchInterceptionWhileZoomed(true);
                         DraweeController controller = Fresco.newDraweeControllerBuilder()
                                 .setUri(imageUri)
                                 .build();
+//                        draweeView.setHierarchy(hierarchy);
                         draweeView.setController(controller);
-                        draweeView.setHierarchy(hierarchy);
                     } else {
                         throw new RuntimeException("not support imageLoader = " + mImageLoader);
                     }
