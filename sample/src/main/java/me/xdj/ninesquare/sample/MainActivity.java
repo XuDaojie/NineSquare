@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.xudaojie.ninesquare.ImageLoader;
-import me.xudaojie.ninesquare.ZoomActivity;
+import me.xudaojie.ninesquare.load.PhotoSquare;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,10 +93,23 @@ public class MainActivity extends AppCompatActivity {
                     mCurrentItemPosition = position;
                     mCurrentImgPosition = imgPosition;
 
-                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO,
-                            mBigImgUrl, mImgUrl,
-                            R.drawable.img_place, R.drawable.img_error,
-                            mCurrentImgPosition);
+//                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO,
+//                            mBigImgUrl, mImgUrl,
+//                            R.drawable.img_place, R.drawable.img_error,
+//                            mCurrentImgPosition);
+
+                    ArrayList<String> bigImageUrl = new ArrayList<String>();
+                    for (int i = 0; i < mBigImgUrl.length; i++) {
+                        bigImageUrl.add(mBigImgUrl[i]);
+                    }
+
+                    PhotoSquare photoSquare = PhotoSquare.newInstance();
+                    photoSquare
+                            .loadUrl(bigImageUrl, mCurrentImgPosition)
+                            .imageLoader(ImageLoader.PICASSO)
+                            .error(R.drawable.img_error)
+                            .placeholder(R.drawable.img_place);
+                    photoSquare.show(MainActivity.this);
                 }
             });
         }

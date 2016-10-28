@@ -48,6 +48,6 @@ dependencies {
     })
     compile 'com.github.XuDaojie:FrescoZoomable:v0.1.0'
 
-    compile 'com.github.XuDaojie:NineSquare:v0.4.0'
-//    compile project(':library')
+//    compile 'com.github.XuDaojie:NineSquare:v0.4.0'
+    compile project(':library')
 }
