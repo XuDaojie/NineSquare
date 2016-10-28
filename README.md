@@ -10,6 +10,7 @@
 1. Gilde、Picasso显示大图使用的是[PhotoView](https://github.com/chrisbanes/PhotoView)
 <br>
 2. Fresco 显示大图使用的是**Fresco** [sample](https://github.com/facebook/fresco/tree/master/samples/zoomableapp) 中的方案
+<br>
 3. Fresco 目前不支持占位图
 ``` java
 // mThumbnails 为缩略图目前还没卵用
