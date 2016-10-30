@@ -53,7 +53,7 @@ public class PhotoSquare {
         } else if (mFiles != null) {
 
         } else if (mResourceIds != null) {
-
+            //...
         }
 
         i.putExtra(Constants.CURRENT_POSITION, mCurrentPosition);
