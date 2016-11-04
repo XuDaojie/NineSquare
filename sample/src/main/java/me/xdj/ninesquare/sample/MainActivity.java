@@ -103,13 +103,12 @@ public class MainActivity extends AppCompatActivity {
                         bigImageUrl.add(mBigImgUrl[i]);
                     }
 
-                    PhotoSquare photoSquare = PhotoSquare.newInstance();
-                    photoSquare
+                    PhotoSquare.with(MainActivity.this)
                             .loadUrl(bigImageUrl, mCurrentImgPosition)
                             .imageLoader(ImageLoader.PICASSO)
+                            .placeholder(R.drawable.img_place)
                             .error(R.drawable.img_error)
-                            .placeholder(R.drawable.img_place);
-                    photoSquare.show(MainActivity.this);
+                            .show();
                 }
             });
         }

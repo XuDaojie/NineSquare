@@ -1,13 +1,8 @@
 package me.xudaojie.ninesquare.load;
 
 import android.content.Context;
-import android.content.Intent;
 
-import java.io.File;
 import java.util.ArrayList;
-
-import me.xudaojie.ninesquare.Constants;
-import me.xudaojie.ninesquare.ZoomActivity;
 
 /**
  * Created by xdj on 2016/10/28.
@@ -15,25 +10,19 @@ import me.xudaojie.ninesquare.ZoomActivity;
  */
 public class PhotoSquare {
 
-    private RequestOptions mRequestOptions;
+    private Context mContext;
+    private Request mRequest;
 
-    private int mCurrentPosition;
-
-    private ArrayList<String> mUrls;
-    private ArrayList<File> mFiles;
-    private ArrayList<Integer> mResourceIds;
-
-    private PhotoSquare() {
+    private PhotoSquare(Context context) {
+        mContext = context;
     }
 
-    public static PhotoSquare newInstance() {
-        return new PhotoSquare();
+    public static PhotoSquare with(Context context) {
+        return new PhotoSquare(context);
     }
 
-    public RequestOptions loadUrl(ArrayList<String> urls, int currentPosition) {
-        mUrls = urls;
-        mCurrentPosition = currentPosition;
-        return mRequestOptions = new RequestOptions();
+    public Request loadUrl(ArrayList<String> urls, int currentPosition) {
+        return mRequest = new Request(mContext, urls, currentPosition);
     }
 
 //    public RequestOptions loadFile(ArrayList<File> files) {
@@ -46,25 +35,4 @@ public class PhotoSquare {
 //        return mRequestOptions = new RequestOptions();
 //    }
 
-    public void show(Context context) {
-        Intent i = new Intent(context, ZoomActivity.class);
-        if (mUrls != null) {
-            i.putExtra(Constants.IMAGE, mUrls);
-        } else if (mFiles != null) {
-
-        } else if (mResourceIds != null) {
-            //...
-        }
-
-        i.putExtra(Constants.CURRENT_POSITION, mCurrentPosition);
-        i.putExtra(Constants.IMAGE_LOADER, mRequestOptions.getImageLoader());
-
-        if (mRequestOptions.getErrorId() != Constants.NONE) {
-            i.putExtra(Constants.ERROR, mRequestOptions.getErrorId());
-        }
-        if (mRequestOptions.getPlaceholderId() != Constants.NONE) {
-            i.putExtra(Constants.PLACEHOLDER, mRequestOptions.getErrorId());
-        }
-        context.startActivity(i);
-    }
 }
