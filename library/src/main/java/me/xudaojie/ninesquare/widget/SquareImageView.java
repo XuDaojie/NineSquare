@@ -1,4 +1,4 @@
-package me.xudaojie.ninesquare;
+package me.xudaojie.ninesquare.widget;
 
 
 import android.annotation.TargetApi;

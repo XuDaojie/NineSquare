@@ -13,9 +13,12 @@
 <br>
 3. Fresco 目前不支持占位图
 ``` java
-// mThumbnails 为缩略图目前还没卵用
-ZoomActivity.startActivity(mContext, ImageLoader.PICASSO, mImages, mThumbnails,
-        R.drawable.placeholder, R.drawable.error, mCurrentImgPosition);
+PhotoSquare.with(mContext)
+        .loadUrl(mImageUrls, mCurrentImgPosition)
+        .imageLoader(ImageLoader.PICASSO)
+        .placeholder(R.drawable.img_place)
+        .error(R.drawable.img_error)
+        .show();
 ```
 
 ## How to
@@ -32,7 +35,7 @@ allprojects {
 ### Step2. Add the dependency
 ``` gradle
 dependencies {
-    compile 'com.github.XuDaojie:NineSquare:v0.4.0'
+    compile 'com.github.XuDaojie:NineSquare:v0.5.0'
     // 以下按需引入
     // 使用Glide、Picasso
     compile 'com.github.chrisbanes:PhotoView:v1.2.4'
