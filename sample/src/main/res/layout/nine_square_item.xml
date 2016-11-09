@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp">
+
     <ImageView
         android:id="@+id/avatar_iv"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/img"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:src="@drawable/img"/>
+
     <TextView
         android:id="@+id/nickname_tv"
         android:layout_width="match_parent"
@@ -17,16 +20,18 @@
         android:layout_toRightOf="@id/avatar_iv"
         android:text="XuDaojie"
         android:textSize="18sp"/>
+
     <TextView
         android:id="@+id/content_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nickname_tv"
-        android:layout_toRightOf="@id/avatar_iv"
         android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/avatar_iv"
         android:text="你好,我叫王小二"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="20sp"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/photo_rv"
         android:layout_width="match_parent"
@@ -34,4 +39,55 @@
         android:layout_below="@id/content_tv"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/avatar_iv"/>
+
+    <me.xudaojie.ninesquare.widget.NineLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_error"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img"/>
+    </me.xudaojie.ninesquare.widget.NineLayout>
+
 </RelativeLayout>

@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mBigImgUrl.length;
+//            return mBigImgUrl.length;
+            return 1;
         }
     }
 
