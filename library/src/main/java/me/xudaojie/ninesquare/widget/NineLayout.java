@@ -1,12 +1,15 @@
 package me.xudaojie.ninesquare.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import me.xudaojie.ninesquare.R;
 
 /**
  * Created by xdj on 2016/11/7.
@@ -16,30 +19,39 @@ public class NineLayout extends ViewGroup {
 
     private static final String TAG = NineLayout.class.getSimpleName();
 
+    private int mHorizontalSpacing;
+    private int mVerticalSpacing;
+
     public NineLayout(Context context) {
         super(context);
+        init(context, null);
     }
 
     public NineLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public NineLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public NineLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
     }
 
-//    /**
-//     * 为子ViewGroup指定LayoutParams
-//     */
-//    @Override
-//    protected LayoutParams generateLayoutParams(LayoutParams p) {
-//        return new MarginLayoutParams(p);
-//    }
+    private void init(Context context, AttributeSet attrs) {
+        if (attrs == null) return;
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NineLayout);
+        mHorizontalSpacing = (int) typedArray.getDimension(R.styleable.NineLayout_horizontalSpacing, 0);
+        mVerticalSpacing = (int) typedArray.getDimension(R.styleable.NineLayout_verticalSpacing, 0);
+        typedArray.recycle();
+    }
+
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -74,8 +86,8 @@ public class NineLayout extends ViewGroup {
         int parentHeightSize = MeasureSpec.getSize(parentHeightMeasureSpec);
 
         LayoutParams mlp = child.getLayoutParams();
-        mlp.width = parentWidthSize / 3;
-        mlp.height = parentWidthSize / 3;
+        mlp.width = (parentWidthSize - mVerticalSpacing * 2) / 3;
+        mlp.height = mlp.width;
         child.setLayoutParams(mlp);
 
         super.measureChild(child, parentWidthMeasureSpec, parentHeightMeasureSpec);
@@ -102,40 +114,40 @@ public class NineLayout extends ViewGroup {
 
             switch (i) {
                 case 0:
-                    cl = mlp.leftMargin;
-                    ct = mlp.topMargin;
+                    cl = 0;
+                    ct = 0;
                     break;
                 case 1:
-                    cl = getChildAt(0).getWidth();
-                    ct = mlp.topMargin;
+                    cl = mHorizontalSpacing + getChildAt(0).getWidth();
+                    ct = 0;
                     break;
                 case 2:
-                    cl = getChildAt(0).getWidth() * 2;
-                    ct = mlp.topMargin;
+                    cl = (mHorizontalSpacing + getChildAt(0).getWidth()) * 2;
+                    ct = 0;
                     break;
                 case 3:
                     cl = 0;
-                    ct = mlp.topMargin + getChildAt(0).getHeight();
+                    ct = mVerticalSpacing + getChildAt(0).getHeight();
                     break;
                 case 4:
-                    cl = getChildAt(0).getWidth();
-                    ct = mlp.topMargin + getChildAt(0).getHeight();
+                    cl = mHorizontalSpacing + getChildAt(0).getWidth();
+                    ct = mVerticalSpacing + getChildAt(0).getHeight();
                     break;
                 case 5:
-                    cl = getChildAt(0).getWidth() * 2;
-                    ct = mlp.topMargin + getChildAt(0).getHeight();
+                    cl = (mHorizontalSpacing + getChildAt(0).getWidth()) * 2;
+                    ct = mVerticalSpacing + getChildAt(0).getHeight();
                     break;
                 case 6:
                     cl = 0;
-                    ct = mlp.topMargin + getChildAt(0).getHeight() * 2;
+                    ct = (mVerticalSpacing + getChildAt(0).getHeight()) * 2;
                     break;
                 case 7:
-                    cl = getChildAt(0).getWidth();
-                    ct = mlp.topMargin + getChildAt(0).getHeight() * 2;
+                    cl = mHorizontalSpacing + getChildAt(0).getWidth();
+                    ct = (mVerticalSpacing + getChildAt(0).getHeight()) * 2;
                     break;
                 case 8:
-                    cl = getChildAt(0).getWidth() * 2;
-                    ct = mlp.topMargin + getChildAt(0).getHeight() * 2;
+                    cl = (mHorizontalSpacing + getChildAt(0).getWidth()) * 2;
+                    ct = (mVerticalSpacing + getChildAt(0).getHeight()) * 2;
                     break;
             }
             cr = cl + cWidth;
