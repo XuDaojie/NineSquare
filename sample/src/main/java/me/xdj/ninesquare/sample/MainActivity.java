@@ -1,6 +1,7 @@
 package me.xdj.ninesquare.sample;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,17 +13,16 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.xudaojie.ninesquare.ImageLoader;
-import me.xudaojie.ninesquare.load.PhotoSquare;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Activity mActivity = this;
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -84,31 +84,36 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final NineSquareViewHolder holder, final int position) {
             GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 3);
-            holder.mPhotoRv.setLayoutManager(glm);
-            holder.mPhotoRv.setAdapter(new ImageAdapter());
 
-            ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+//            ItemClickSupport.addTo(holder.mPhotoRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+//                @Override
+//                public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
+//                    mCurrentItemPosition = position;
+//                    mCurrentImgPosition = imgPosition;
+//
+////                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO,
+////                            mBigImgUrl, mImgUrl,
+////                            R.drawable.img_place, R.drawable.img_error,
+////                            mCurrentImgPosition);
+//
+//                    ArrayList<String> bigImageUrl = new ArrayList<String>();
+//                    for (int i = 0; i < mBigImgUrl.length; i++) {
+//                        bigImageUrl.add(mBigImgUrl[i]);
+//                    }
+//
+//                    PhotoSquare.with(MainActivity.this)
+//                            .loadUrl(bigImageUrl, mCurrentImgPosition)
+//                            .imageLoader(ImageLoader.PICASSO)
+//                            .placeholder(R.drawable.img_place)
+//                            .error(R.drawable.img_error)
+//                            .show();
+//                }
+//            });
+
+            holder.mTestIv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClicked(final RecyclerView recyclerView, final int imgPosition, View v) {
-                    mCurrentItemPosition = position;
-                    mCurrentImgPosition = imgPosition;
-
-//                    ZoomActivity.startActivity(MainActivity.this, ImageLoader.FRESCO,
-//                            mBigImgUrl, mImgUrl,
-//                            R.drawable.img_place, R.drawable.img_error,
-//                            mCurrentImgPosition);
-
-                    ArrayList<String> bigImageUrl = new ArrayList<String>();
-                    for (int i = 0; i < mBigImgUrl.length; i++) {
-                        bigImageUrl.add(mBigImgUrl[i]);
-                    }
-
-                    PhotoSquare.with(MainActivity.this)
-                            .loadUrl(bigImageUrl, mCurrentImgPosition)
-                            .imageLoader(ImageLoader.PICASSO)
-                            .placeholder(R.drawable.img_place)
-                            .error(R.drawable.img_error)
-                            .show();
+                public void onClick(View v) {
+                    Toast.makeText(mActivity, "xxxx", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
 //            return mBigImgUrl.length;
-            return 1;
+            return 15;
         }
     }
 
@@ -140,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     .dontAnimate()
                     .centerCrop()
                     .into(holder.mImageView);
+
         }
 
         @Override
@@ -155,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
         TextView mNicknameTv;
         @BindView(R.id.content_tv)
         TextView mContentTv;
-        @BindView(R.id.photo_rv)
-        RecyclerView mPhotoRv;
+        @BindView(R.id.test_iv)
+        ImageView mTestIv;
 
         NineSquareViewHolder(View view) {
             super(view);

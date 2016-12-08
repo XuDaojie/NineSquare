@@ -32,19 +32,20 @@
         android:textColor="@android:color/black"
         android:textSize="20sp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/photo_rv"
+    <me.xudaojie.ninesquare.widget.SimpleGridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/content_tv"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/avatar_iv"/>
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/avatar_iv"
+        app:horizontalSpacing="8dp"
+        app:verticalSpacing="8dp">
 
-    <me.xudaojie.ninesquare.widget.NineLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:horizontalSpacing="10dp"
-        app:verticalSpacing="10dp">
+        <ImageView
+            android:id="@+id/test_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img1"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img"/>
+            android:src="@drawable/img1"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -64,17 +65,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_error"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_error"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_error"/>
+            android:src="@drawable/img1"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -84,12 +75,17 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img"/>
+            android:src="@drawable/img1"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img"/>
-    </me.xudaojie.ninesquare.widget.NineLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img1"/>
+    </me.xudaojie.ninesquare.widget.SimpleGridLayout>
 
 </RelativeLayout>
