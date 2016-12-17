@@ -32,7 +32,7 @@
         android:textColor="@android:color/black"
         android:textSize="20sp"/>
 
-    <me.xudaojie.ninesquare.widget.SimpleGridLayout
+    <me.xudaojie.ninesquare.widget.BaseGridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/content_tv"
@@ -86,6 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img1"/>
-    </me.xudaojie.ninesquare.widget.SimpleGridLayout>
+    </me.xudaojie.ninesquare.widget.BaseGridLayout>
 
 </RelativeLayout>

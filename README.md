@@ -5,6 +5,11 @@
 ![screenshot](https://github.com/XuDaojie/NineSquare/blob/master/art/NineSquare.gif)
 
 ## Use
+
+``` xml
+<activity android:name="me.xudaojie.ninesquare.ZoomActivity"/>
+```
+
 目前支持Glide、Picasso、Fresco
 <br>
 1. Gilde、Picasso显示大图使用的是[PhotoView](https://github.com/chrisbanes/PhotoView)

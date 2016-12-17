@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="SimpleGridLayout">
+    <declare-styleable name="BaseGridLayout">
         <attr name="horizontalSpacing" format="dimension"/>
         <attr name="verticalSpacing" format="dimension"/>
+        <attr name="rowCount" format="integer"/>
+        <attr name="columnCount" format="integer"/>
     </declare-styleable>
 </resources>

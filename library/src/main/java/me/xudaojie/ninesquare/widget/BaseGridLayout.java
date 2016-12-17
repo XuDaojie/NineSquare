@@ -14,34 +14,35 @@ import me.xudaojie.ninesquare.R;
 
 /**
  * Created by xdj on 2016/11/7.
+ *
  */
 
-public class SimpleGridLayout extends ViewGroup {
+public class BaseGridLayout extends ViewGroup {
 
-    private static final String TAG = SimpleGridLayout.class.getSimpleName();
+    private static final String TAG = BaseGridLayout.class.getSimpleName();
 
-    private int mHorizontalSpacing;
-    private int mVerticalSpacing;
-    private int mRowCount = 3;
-    private int mColumnCount = 3;
+    protected int mHorizontalSpacing;
+    protected int mVerticalSpacing;
+    protected int mRowCount = 3;
+    protected int mColumnCount = 3;
 
-    public SimpleGridLayout(Context context) {
+    public BaseGridLayout(Context context) {
         super(context);
         init(context, null);
     }
 
-    public SimpleGridLayout(Context context, AttributeSet attrs) {
+    public BaseGridLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public SimpleGridLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseGridLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SimpleGridLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BaseGridLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
@@ -49,9 +50,12 @@ public class SimpleGridLayout extends ViewGroup {
     private void init(Context context, AttributeSet attrs) {
         if (attrs == null) return;
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SimpleGridLayout);
-        mHorizontalSpacing = (int) typedArray.getDimension(R.styleable.SimpleGridLayout_horizontalSpacing, 0);
-        mVerticalSpacing = (int) typedArray.getDimension(R.styleable.SimpleGridLayout_verticalSpacing, 0);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BaseGridLayout);
+        mHorizontalSpacing = (int) typedArray.getDimension(R.styleable.BaseGridLayout_horizontalSpacing, 0);
+        mVerticalSpacing = (int) typedArray.getDimension(R.styleable.BaseGridLayout_verticalSpacing, 0);
+        mRowCount = typedArray.getInt(R.styleable.BaseGridLayout_rowCount, 3);
+        mColumnCount = typedArray.getInt(R.styleable.BaseGridLayout_columnCount, 3);
+
 
         typedArray.recycle();
     }
@@ -103,10 +107,6 @@ public class SimpleGridLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        int childCount = getChildCount();
-        int offsetX = 0;
-        int offsetY = 0;
-
         View[][] childs = new View[mColumnCount][mRowCount];
         for (int i = 0; i < mColumnCount; i++) {
             View[] childGroup = childs[i];
@@ -133,14 +133,6 @@ public class SimpleGridLayout extends ViewGroup {
                 child.layout(cl, ct, cr, cb);
             }
         }
-
-    }
-
-    /**
-     * 清除所有child
-     */
-    private void clear() {
-        removeAllViews();
     }
 
     public interface OnItemClickListener {
