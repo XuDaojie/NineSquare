@@ -22,6 +22,10 @@ public class PhotoSquare {
     }
 
     public Request loadUrl(ArrayList<String> urls, int currentPosition) {
+        if (currentPosition > urls.size() - 1) {
+            throw new IndexOutOfBoundsException("current position " + currentPosition
+                    + " url length " + urls.size());
+        }
         return mRequest = new Request(mContext, urls, currentPosition);
     }
 
